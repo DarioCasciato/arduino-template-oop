@@ -2,6 +2,7 @@
 // Template-Project | Main
 // =============================================================================
 
+#include <Arduino.h>
 #include "hardware.h"
 #include "EdgeDetection.h"
 #include "general.h"
