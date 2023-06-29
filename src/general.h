@@ -10,7 +10,7 @@
 namespace General
 {
     // Constructors, Functions, Variables, etc...
-    bool statusButton;
+    uint8_t statusButton;
 } // namespace General
 
 

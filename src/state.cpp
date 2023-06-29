@@ -37,7 +37,7 @@ namespace State
     // State implementations
     void stateIdle()
     {
-        if(Hardware::Button.getEdgePos())
+        if(Hardware::button.getEdgePos())
         {
             Serial.println("Button pressed!");
         }
