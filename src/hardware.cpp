@@ -8,8 +8,7 @@
 
 namespace Hardware
 {
-    // Edge detection for button
-    EdgeDetection switchMidway(&General::statusButton);
+
 
     bool getPort(Port port)
     {
