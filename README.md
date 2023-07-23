@@ -62,18 +62,18 @@ The directory structure of this template repository is as follows:
 
 ## Removing Example Code
 
-If you prefer to start with a clean slate and remove the example code provided in this template, you can use the "clean-template" branch. This branch has already removed the example code and is ready for you to begin your project without any pre-existing code.
+If you prefer to start with a clean slate and remove the example code provided in this template, you can use the "remove-template" branch. This branch has already removed the example code and is ready for you to begin your project without any pre-existing code.
 
 ### Instructions:
 
-1. Switch to the "clean-template" branch using the following command:
+1. Switch to the "remove-template" branch using the following command:
    ```
-   git checkout clean-template
+   git checkout remove-template
    ```
 
-2. Merge the "clean-template" branch into the "main" branch:
+2. Merge the "remove-template" branch into the "main" branch:
    ```
-   git merge clean-template
+   git merge remove-template
    ```
 
    **Note:** Before merging, make sure you have committed or stashed any changes you made to the "main" branch to avoid conflicts.
@@ -84,7 +84,7 @@ If you prefer to start with a clean slate and remove the example code provided i
 
 ### Additional Information:
 
-The "clean-template" branch was created to provide users with a minimalist starting point, eliminating any example code that might not be relevant to your specific project requirements.
+The "remove-template" branch was created to provide users with a minimalist starting point, eliminating any example code that might not be relevant to your specific project requirements.
 
 
 
