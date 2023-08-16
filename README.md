@@ -1,3 +1,11 @@
+# TODO
+- [ ] remove general.hpp
+- [ ] rename "lib" dir to "utils"
+- [ ] rename "include" to "lib"
+- [ ] create new remove-template branch
+- [ ] renew repository tree in readme
+
+
 # Arduino Firmware Template Repository
 
 This is a template repository for developing firmware using Object-Oriented Programming (OOP) principles with Arduino and PlatformIO. It provides a structured starting point for creating Arduino projects that follow best practices for modularity, maintainability, and scalability.
