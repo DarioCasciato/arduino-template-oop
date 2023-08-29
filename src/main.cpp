@@ -32,7 +32,7 @@ void loop()
 
 void refreshData()
 {
-  General::statusButton = Hardware::getPort(Hardware::Port::button);
+
 
   EdgeDetection::updateEdges();
 }
