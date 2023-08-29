@@ -1,7 +1,7 @@
 # TODO
-- [ ] remove general.hpp
-- [ ] rename "lib" dir to "utils"
-- [ ] rename "include" to "lib"
+- [x] remove general.hpp
+- [x] rename "lib" dir to "utils"
+- [x] rename "include" to "lib"
 - [ ] create new remove-template branch
 - [ ] renew repository tree in readme
 
