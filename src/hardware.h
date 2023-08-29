@@ -13,10 +13,9 @@ namespace Hardware
     // Example entries
     enum class Port : uint8_t
     {
-        button = PIN_BUTTON
+
     };
 
-    extern EdgeDetection button;
 
     bool getPort(Port port);
 } // namespace Hardware

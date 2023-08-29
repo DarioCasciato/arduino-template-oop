@@ -37,15 +37,12 @@ namespace State
     // State implementations
     void stateIdle()
     {
-        if(Hardware::button.getEdgePos())
-        {
-            Serial.println("Button pressed!");
-        }
+
     }
 
     void stateError()
     {
-        Serial.println("ERROR");
+
     }
 } // namespace State
 
