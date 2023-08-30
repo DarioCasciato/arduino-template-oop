@@ -58,8 +58,8 @@ The directory structure of this template repository is as follows:
     └───Timer
 ```
 
-- **`lib/`**: This directory contains external libraries that your project depends on. Each library should have its own subdirectory within the `lib` directory.
-- **`src/`**: This directory contains the main firmware code. You can create additional source files as needed, such as configuration files (`configurations.h`) or modules (`general.cpp`, `general.h`, etc.).
+- **`src/`**: This directory contains the main firmware code. You can create additional source files as needed, such as configuration files (`configurations.h`) or modules (`hardware.cpp`, `hardware.h`, etc.).
+- **`utils/`**: contains useful libraries
 - **`README.md`**: This file provides an overview and instructions for the template repository.
 
 ## Removing Example Code
