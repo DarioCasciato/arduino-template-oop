@@ -7,6 +7,8 @@
 
 #include "EdgeDetection.h"
 #include "configurations.h"
+#include "gpio.h"
+
 
 namespace Hardware
 {
@@ -17,7 +19,6 @@ namespace Hardware
     };
 
 
-    bool getPort(Port port);
 } // namespace Hardware
 
 

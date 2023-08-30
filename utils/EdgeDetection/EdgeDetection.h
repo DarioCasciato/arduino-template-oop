@@ -1,11 +1,11 @@
 // =============================================================================
-// Template-Project | EdgeDetection
+// Utils | EdgeDetection
 // =============================================================================
 
 #include <stdint.h>
 
-#ifndef ARDUINO_OBJECTS_EDGE_DETECTION_
-#define ARDUINO_OBJECTS_EDGE_DETECTION_
+#ifndef UTILS_EDGE_DETECTION_
+#define UTILS_EDGE_DETECTION_
 
 class EdgeDetection
 {
@@ -61,4 +61,4 @@ public:
     uint8_t getEdgeNeg();
 };
 
-#endif // ARDUINO_OBJECTS_EDGE_DETECTION_
+#endif // UTILS_EDGE_DETECTION_

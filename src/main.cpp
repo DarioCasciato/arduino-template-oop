@@ -5,7 +5,6 @@
 #include <Arduino.h>
 #include "hardware.h"
 #include "EdgeDetection.h"
-#include "general.h"
 #include "configurations.h"
 #include "state.h"
 
