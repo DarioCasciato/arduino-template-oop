@@ -4,7 +4,6 @@
 
 #include "state.h"
 #include "hardware.h"
-#include "general.h"
 #include "configurations.h"
 #include "Timer.h"
 
@@ -37,15 +36,12 @@ namespace State
     // State implementations
     void stateIdle()
     {
-        if(Hardware::button.getEdgePos())
-        {
-            Serial.println("Button pressed!");
-        }
+
     }
 
     void stateError()
     {
-        Serial.println("ERROR");
+
     }
 } // namespace State
 

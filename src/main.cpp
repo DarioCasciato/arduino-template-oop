@@ -5,7 +5,6 @@
 #include <Arduino.h>
 #include "hardware.h"
 #include "EdgeDetection.h"
-#include "general.h"
 #include "configurations.h"
 #include "state.h"
 
@@ -32,7 +31,7 @@ void loop()
 
 void refreshData()
 {
-  General::statusButton = Hardware::getPort(Hardware::Port::button);
+
 
   EdgeDetection::updateEdges();
 }

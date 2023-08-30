@@ -38,26 +38,28 @@ To create a new firmware project using this template repository, follow these st
 The directory structure of this template repository is as follows:
 
 ```
-├── lib/
-│   ├── EdgeDetection/
-│   │   ├── EdgeDetection.cpp
-│   │   └── EdgeDetection.h
-│   └── Timer/
-│       ├── Timer.cpp
-│       └── Timer.h
-└── src/
-    ├── configurations.h
-    ├── general.cpp
-    ├── general.h
-    ├── hardware.cpp
-    ├── hardware.h
-    ├── main.cpp
-    ├── state.cpp
-    └── state.h
+│
+├───src
+│       configurations.h
+│       hardware.cpp
+│       hardware.h
+│       main.cpp
+│       state.cpp
+│       state.h
+│
+└───utils
+    ├───Arduino
+    ├───Buzzer
+    ├───EdgeDetection
+    ├───LED
+    ├───LED_RGB
+    ├───Potentiometer
+    ├───Security
+    └───Timer
 ```
 
-- **`lib/`**: This directory contains external libraries that your project depends on. Each library should have its own subdirectory within the `lib` directory.
-- **`src/`**: This directory contains the main firmware code. You can create additional source files as needed, such as configuration files (`configurations.h`) or modules (`general.cpp`, `general.h`, etc.).
+- **`src/`**: This directory contains the main firmware code. You can create additional source files as needed, such as configuration files (`configurations.h`) or modules (`hardware.cpp`, `hardware.h`, etc.).
+- **`utils/`**: contains useful libraries
 - **`README.md`**: This file provides an overview and instructions for the template repository.
 
 ## Removing Example Code
@@ -67,26 +69,23 @@ If you prefer to start with a clean slate and remove the example code provided i
 ### Instructions:
 
 1. Switch to the "remove-template" branch using the following command:
+
    ```
    git checkout remove-template
    ```
-
 2. Merge the "remove-template" branch into the "main" branch:
+
    ```
    git merge remove-template
    ```
 
    **Note:** Before merging, make sure you have committed or stashed any changes you made to the "main" branch to avoid conflicts.
-
 3. Once the merge is complete, the "main" branch will now contain only the directory structure and the README.md file.
-
 4. You can now start building your firmware project from this clean template.
 
 ### Additional Information:
 
 The "remove-template" branch was created to provide users with a minimalist starting point, eliminating any example code that might not be relevant to your specific project requirements.
-
-
 
 ## Contributing
 
