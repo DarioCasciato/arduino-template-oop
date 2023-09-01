@@ -8,4 +8,15 @@
 namespace Hardware
 {
 
+
+
+    void init()
+    {
+
+    }
+
+    void updateHardware()
+    {
+
+    }
 } // namespace Hardware

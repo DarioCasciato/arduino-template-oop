@@ -19,6 +19,11 @@ namespace Hardware
     };
 
 
+    /// @brief Initializes hardware
+    void init();
+
+    /// @brief Fetches hardware values
+    void updateHardware();
 } // namespace Hardware
 
 

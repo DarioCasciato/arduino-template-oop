@@ -32,6 +32,6 @@ void loop()
 void refreshData()
 {
 
-
+  Hardware::updateHardware();
   EdgeDetection::updateEdges();
 }
