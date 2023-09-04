@@ -17,6 +17,6 @@ namespace Hardware
 
     void updateHardware()
     {
-
+        //
     }
 } // namespace Hardware
