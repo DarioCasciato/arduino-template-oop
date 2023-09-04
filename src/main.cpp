@@ -23,7 +23,7 @@ void loop()
   {
     refreshData();  // refresh port values
 
-    State::stateDriver();
+    State::stateDriver(); // drive state machine
   }
 }
 
