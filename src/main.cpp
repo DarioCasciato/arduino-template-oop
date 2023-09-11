@@ -24,9 +24,9 @@ void loop()
 {
   for (;;)
   {
-    refreshData();  // refresh port values
+    refreshData();
 
-    State::stateDriver(); // drive state machine
+    State::stateDriver();
   }
 }
 
