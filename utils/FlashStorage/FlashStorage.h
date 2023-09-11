@@ -19,19 +19,27 @@ class FlashStorage
 {
 private:
     static uint16_t startOffsetAddress_;  ///< Static variable to hold the initial offset address for all instances
-    uint16_t storageSize_;  ///< Size of the storage area in flash memory
-    uint16_t startAddr_;  ///< Starting address for this instance
-    uint8_t dataSize_;  ///< Size of individual data entries
-    uint16_t numMaxEntries_;  ///< Maximum number of entries that can be stored
-    uint16_t numEntries_;  ///< Number of entries currently stored
-    uint16_t nextAddr_;  ///< Next available address for writing
+
+    struct Header
+    {
+        uint16_t magic;  ///< Magic number to identify the header
+        uint16_t storageSize_;  ///< Size of the storage area in flash memory
+        uint16_t startAddr_;  ///< Starting address for this instance
+        uint8_t dataSize_;  ///< Size of individual data entries
+        uint16_t numMaxEntries_;  ///< Maximum number of entries that can be stored
+        uint16_t numEntries_;  ///< Number of entries currently stored
+        uint16_t nextAddr_;  ///< Next available address for writing
+    } header_;
+
+    /// @brief Update the header in flash memory.
+    void updateHeader();
 
 public:
     /// @brief Constructor for the FlashStorage class.
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param dataSize Size of individual data entries
-    FlashStorage(uint16_t storageSize, uint8_t dataSize);
+    FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber);
 
     /// @brief Write data to the next available address.
     ///
@@ -67,17 +75,17 @@ public:
     /// @brief Get the number of entries currently stored.
     ///
     /// @return Number of entries
-    uint16_t getNumEntries() { return numEntries_; }
+    uint16_t getNumEntries() { return header_.numEntries_; }
 
     /// @brief Get the size of the storage area.
     ///
     /// @return Storage size
-    uint16_t getStorageSize() { return storageSize_; }
+    uint16_t getStorageSize() { return header_.storageSize_; }
 
     /// @brief Get the size of individual data entries.
     ///
     /// @return Data size
-    uint16_t getDataSize() { return dataSize_; }
+    uint16_t getDataSize() { return header_.dataSize_; }
 };
 
 
