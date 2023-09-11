@@ -4,7 +4,6 @@
 
 #include "state.h"
 #include "hardware.h"
-#include "general.h"
 #include "configurations.h"
 #include "Timer.h"
 
@@ -37,12 +36,27 @@ namespace State
     // State implementations
     void stateIdle()
     {
+        // Turn on the LED
+        Hardware::led.on();
 
+        // If the button is pressed, go to the error state
+        if(Hardware::button.getEdgePos())
+        {
+            state = States::st_error;
+        }
     }
 
     void stateError()
     {
+        // set the led to off
+        Hardware::led.off();
 
+        // if the button is pressed
+        if(Hardware::button.getEdgePos())
+        {
+            // go to the idle state
+            state = States::st_idle;
+        }
     }
 } // namespace State
 

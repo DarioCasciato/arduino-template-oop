@@ -1,11 +1,11 @@
 // =============================================================================
-// Template-Project | Timer
+// Utils | Timer
 // =============================================================================
 
 #include <Arduino.h>
 
-#ifndef ARDUINO_OBJECTS_TIMER_
-#define ARDUINO_OBJECTS_TIMER_
+#ifndef UTILS_TIMER_
+#define UTILS_TIMER_
 
 class Timer
 {
@@ -38,4 +38,4 @@ public:
     uint32_t elapsedStart();
 };
 
-#endif // ARDUINO_OBJECTS_TIMER_
+#endif // UTILS_TIMER_

@@ -4,14 +4,26 @@
 
 #include <Arduino.h>
 #include "hardware.h"
-#include "general.h"
+#include "gpioHandler.h"
 
 namespace Hardware
 {
+    uint8_t buttonValue = false;
+    EdgeDetection button(&buttonValue);
+
+    LED led((uint8_t) Port::led);
 
 
-    bool getPort(Port port)
+    void init()
     {
-        return digitalRead((uint8_t)port);
+        // initialize hardware
+        led.off();
+        pinMode((uint8_t) Port::button, INPUT);
+    }
+
+    void updateHardware()
+    {
+        // get newest button value
+        buttonValue = GPIO::getPort(Port::button);
     }
 } // namespace Hardware

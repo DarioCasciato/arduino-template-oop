@@ -1,8 +1,10 @@
 // =============================================================================
-// Template-Project | General
+// Utils | MathUtils
 // =============================================================================
 
-#include <Arduino.h>
-#include "configurations.h"
+#ifndef UTILS_MATHUTILS_
+#define UTILS_MATHUTILS_
 
-// Functions, Variables, etc...
+#define ARR_ELEMENT_COUNT(a) (sizeof(a) / sizeof(*a))
+
+#endif

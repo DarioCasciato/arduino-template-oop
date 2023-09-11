@@ -5,7 +5,6 @@
 #include <Arduino.h>
 #include "hardware.h"
 #include "EdgeDetection.h"
-#include "general.h"
 #include "configurations.h"
 #include "state.h"
 
@@ -24,7 +23,7 @@ void loop()
   {
     refreshData();  // refresh port values
 
-    State::stateDriver();
+    State::stateDriver(); // drive state machine
   }
 }
 
@@ -33,6 +32,6 @@ void loop()
 void refreshData()
 {
 
-
+  Hardware::updateHardware();
   EdgeDetection::updateEdges();
 }
