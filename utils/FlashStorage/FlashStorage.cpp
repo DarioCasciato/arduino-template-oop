@@ -97,12 +97,19 @@ bool FlashStorage::write(uint16_t index, void* data)
         memcpy(byteData, data, header_.dataSize_);  // Copy data to byte array
 
         // Calculate the exact EEPROM address to write to
-        uint16_t writeAddr = header_.startAddr_ + index * header_.dataSize_;
+        uint16_t writeAddr = header_.startAddr_ + (index * header_.dataSize_);
 
         // Write byte array to EEPROM
         for (uint16_t i = 0; i < header_.dataSize_; ++i)
         {
             EEPROM.write(writeAddr + i, byteData[i]);
+        }
+
+        if (writeAddr + header_.dataSize_ > header_.nextAddr_)
+        {
+            header_.nextAddr_ = writeAddr + header_.dataSize_;
+            header_.numEntries_ = index + 1;
+            updateHeader();
         }
 
         #ifdef ESP8266
@@ -122,8 +129,10 @@ bool FlashStorage::read(uint16_t index, void* data)
 {
     if (index < header_.numEntries_)
     {
-        uint16_t readAddr = header_.startAddr_ + index * header_.dataSize_;
+        // Account for header size when calculating read address
+        uint16_t readAddr = header_.startAddr_ + (index * header_.dataSize_);
         uint8_t byteData[header_.dataSize_];  // Create a byte array to hold data
+
 
         // Read byte array from EEPROM
         for (uint16_t i = 0; i < header_.dataSize_; ++i)
