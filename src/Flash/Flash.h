@@ -2,24 +2,20 @@
 // Utils | FlashStorage
 // =============================================================================
 
+#ifndef UTILS_FLASH_
+#define UTILS_FLASH_
+
 #include "FlashStorage.h"
 #include "FlashStructure.h"
 #include <EEPROM.h>
 
-#define MAGIC_NUMBER 0x1234
-
 namespace Flash
 {
     // add flash memory definition here
-    // example: FlashStorage testMemory(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGICNUMBER);
+    // example: extern FlashStorage testMemory;
 
-    void init()
-    {
-        #ifdef ESP8266
-        EEPROM.begin(sizeof(Flash::Structure));
-        #else
-        EEPROM.begin();
-        #endif
-    }
+    void init();
 
 } // namespace Flash
+
+#endif // UTILS_FLASH_
