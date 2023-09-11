@@ -8,16 +8,18 @@
 
 #define MAGIC_NUMBER 0x1234
 
-void Flash::init()
+namespace Flash
 {
     // add flash memory definition here
     // example: FlashStorage testMemory(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGICNUMBER);
 
+    void init()
+    {
+        #ifdef ESP8266
+        EEPROM.begin(sizeof(Flash::Structure));
+        #else
+        EEPROM.begin();
+        #endif
+    }
 
-
-    #ifdef ESP8266
-    EEPROM.begin(sizeof(Flash::Structure));
-    #else
-    EEPROM.begin();
-    #endif
-}
+} // namespace Flash
