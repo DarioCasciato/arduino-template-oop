@@ -2,10 +2,10 @@
 // Utils | Wifi Serial-Login
 // =============================================================================
 
+#ifdef ESP8266
+
 #ifndef WIFI_SERIAL_LOGIN_
 #define WIFI_SERIAL_LOGIN_
-
-#ifdef ESP8266
 
 #include <ESP8266WiFi.h>
 
@@ -19,5 +19,5 @@ namespace WifiSerialLogin
 } // namespace WifiSerialLogin
 
 
-#endif  // ESP8266
 #endif  // WIFI_SERIAL_LOGIN_
+#endif  // ESP8266
