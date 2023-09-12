@@ -2,7 +2,7 @@
 // Utils | LED_RGB
 // =========================================
 
-#include <LED_RGB.h>
+#include "LED_RGB.h"
 
 // constructor that initializes the RGB LED pin and active level
 LED_RGB::LED_RGB(uint8_t pin_r, uint8_t pin_g, uint8_t pin_b, activeLevel ActiveLevel = COMMON_CATHODE)
