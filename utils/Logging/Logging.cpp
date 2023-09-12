@@ -7,7 +7,7 @@
 #include <stdarg.h>  // For va_list and va_start
 
 
-void log(const char *format, ...)
+void Logging::log(const char *format, ...)
 {
   char buffer[256];
   va_list args;
