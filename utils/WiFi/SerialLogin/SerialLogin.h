@@ -8,6 +8,7 @@
 #define WIFI_SERIAL_LOGIN_
 
 #include <ESP8266WiFi.h>
+#include "../../src/configurations.h"
 
 namespace WifiSerialLogin
 {

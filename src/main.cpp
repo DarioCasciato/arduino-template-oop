@@ -8,15 +8,16 @@
 #include "configurations.h"
 #include "state.h"
 #include "Flash/Flash.h"
-#include "SerialLogin.h"
-
+#ifdef ESP8266
+#include "../utils/WiFi/SerialLogin/SerialLogin.h"
+#endif // ESP8266
 void refreshData();
 
 //------------------------------------------------------------------------------
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   Flash::init();
 

@@ -5,7 +5,6 @@
 #ifdef ESP8266
 
 #include "SerialLogin.h"
-#include "configurations.h"
 
 void WifiSerialLogin::scanNearbyNetworks()
 {
@@ -42,50 +41,52 @@ void WifiSerialLogin::scanNearbyNetworks()
 
 void WifiSerialLogin::serialWifiLogin()
 {
+    // If ssid and password from configurations.h are not empty, use them
+    if (String(ssid).length() > 0 && String(password).length() > 0)
+    {
+        Serial.println("Using stored WiFi credentials.");
+        WiFi.begin(ssid, password);
+    }
+    else
+    {
+         // Otherwise, request new credentials
+        scanNearbyNetworks();
+
+        Serial.println("Enter your WiFi credentials.");
+
+        // Get SSID
+        Serial.print("SSID: ");
+        while (Serial.available() == 0)
+        {
+            delay(100);
+        }
+        String ssid_buffer = Serial.readStringUntil('\n');
+        char tempSsid[ssid_buffer.length() + 1];
+        ssid_buffer.toCharArray(tempSsid, ssid_buffer.length() + 1);
+
+        // Get Password
+        Serial.print("Password: ");
+        while (Serial.available() == 0)
+        {
+            delay(100);
+        }
+        String password_buffer = Serial.readStringUntil('\n');
+        char tempPassword[password_buffer.length() + 1];
+        password_buffer.toCharArray(tempPassword, password_buffer.length() + 1);
+
+        // Store them in your global ssid and password variables
+        strcpy(ssid, tempSsid);
+        strcpy(password, tempPassword);
+
+        WiFi.begin(ssid, password);
+    }
+
     while (WiFi.status() != WL_CONNECTED)
     {
-        // If ssid and password from configurations.h are not empty, use them
-        if (String(ssid).length() > 0 && String(password).length() > 0)
-        {
-            Serial.println("Using stored WiFi credentials.");
-            WiFi.begin(ssid, password);
-        }
-        else
-        {
-            // Otherwise, request new credentials
-            scanNearbyNetworks();
 
-            Serial.println("Enter your WiFi credentials.");
-
-            // Get SSID
-            Serial.print("SSID: ");
-            while (Serial.available() == 0)
-            {
-                delay(100);
-            }
-            String ssid_buffer = Serial.readStringUntil('\n');
-            char tempSsid[ssid_buffer.length() + 1];
-            ssid_buffer.toCharArray(tempSsid, ssid_buffer.length() + 1);
-
-            // Get Password
-            Serial.print("Password: ");
-            while (Serial.available() == 0)
-            {
-                delay(100);
-            }
-            String password_buffer = Serial.readStringUntil('\n');
-            char tempPassword[password_buffer.length() + 1];
-            password_buffer.toCharArray(tempPassword, password_buffer.length() + 1);
-
-            // Store them in your global ssid and password variables
-            strcpy(ssid, tempSsid);
-            strcpy(password, tempPassword);
-
-            WiFi.begin(ssid, password);
-        }
 
         // Wait for connection
-        for(uint8_t i = 0; i < 10; i++)
+        for(uint8_t i = 0; i < 20; i++)
         {
             delay(500);
             Serial.print(".");
