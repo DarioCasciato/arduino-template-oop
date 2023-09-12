@@ -29,7 +29,7 @@ public:
     ///
     /// @param pin The pin number to which the LED is connected
     /// @param ActiveLevel The active level of the LED (LOW_ACTIVE or HIGH_ACTIVE)
-    LED(uint8_t pin, activeLevel ActiveLevel = HIGH_ACTIVE);
+    LED(uint8_t pin, activeLevel ActiveLevel);
 
     /// @brief Set the level of the LED
     ///

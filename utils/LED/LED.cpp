@@ -5,7 +5,7 @@
 #include "LED.h"
 
 // constructor that initializes the LED pin and active level
-LED::LED(uint8_t pin, activeLevel ActiveLevel = HIGH_ACTIVE)
+LED::LED(uint8_t pin, activeLevel ActiveLevel)
 {
     _pin = pin;
     _activeLevel = ActiveLevel;
