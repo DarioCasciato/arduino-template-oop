@@ -19,6 +19,7 @@ class FlashStorage
 {
 private:
     static uint16_t startOffsetAddress_;  ///< Static variable to hold the initial offset address for all instances
+    bool initialized_;  ///< Flag to indicate if the storage area has been initialized
 
     struct Header
     {
@@ -40,6 +41,9 @@ public:
     /// @param storageSize Size of the storage area in flash memory
     /// @param dataSize Size of individual data entries
     FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber);
+
+    /// @brief Initialize the storage area.
+    void init();
 
     /// @brief Write data to the next available address.
     ///

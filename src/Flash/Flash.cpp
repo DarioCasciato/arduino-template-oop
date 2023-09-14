@@ -12,6 +12,18 @@ namespace Flash
     // example: FlashStorage testMemory(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGICNUMBER);
     FlashStorage storage(sizeof(Flash::Structure::memory1), sizeof(int), MAGIC_NUMBER);
 
+
+    // Add initializers here
+    void initStorage()
+    {
+        storage.init();
+    }
+
+    void clear()
+    {
+        storage.clear();
+    }
+
     void init()
     {
         #ifdef ESP8266
@@ -19,6 +31,10 @@ namespace Flash
         #else
         EEPROM.begin();
         #endif
+
+        initStorage();
+
+        Logging::log("Flash memory initialized\n");
     }
 
 } // namespace Flash

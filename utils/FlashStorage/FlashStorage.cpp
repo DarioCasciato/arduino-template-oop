@@ -9,6 +9,7 @@
 uint16_t FlashStorage::startOffsetAddress_ = 0;
 
 FlashStorage::FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber)
+    : initialized_(false) // Initialize to false
 {
     header_.magic = magicNumber;  // Assign the passed magic number
     header_.startAddr_ = startOffsetAddress_ + sizeof(header_);
@@ -18,6 +19,14 @@ FlashStorage::FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magi
     header_.numMaxEntries_ = storageSize / dataSize;
     header_.numEntries_ = 0;
     header_.nextAddr_ = header_.startAddr_;
+}
+
+void FlashStorage::init()
+{
+    if (initialized_)
+    {
+        return; // Already initialized, do nothing
+    }
 
     // Read header from EEPROM
     uint8_t byteData[sizeof(header_)];  // Create a byte array to hold data
@@ -40,8 +49,9 @@ FlashStorage::FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magi
         // Header is valid, populate it from EEPROM data
         memcpy(&header_, byteData, sizeof(header_));
     }
-}
 
+    initialized_ = true;  // Mark as initialized
+}
 
 void FlashStorage::updateHeader()
 {
@@ -108,7 +118,7 @@ bool FlashStorage::write(uint16_t index, void* data)
         if (writeAddr + header_.dataSize_ > header_.nextAddr_)
         {
             header_.nextAddr_ = writeAddr + header_.dataSize_;
-            header_.numEntries_ = index + 1;
+            header_.numEntries_ = (header_.nextAddr_ - header_.startAddr_) / header_.dataSize_;
             updateHeader();
         }
 

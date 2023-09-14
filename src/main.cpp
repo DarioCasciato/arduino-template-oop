@@ -8,6 +8,7 @@
 #include "configurations.h"
 #include "state.h"
 #include "Flash/Flash.h"
+#include "SerialLogin.h"
 
 void refreshData();
 
