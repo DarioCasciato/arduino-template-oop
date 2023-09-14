@@ -71,7 +71,7 @@ void FlashStorage::updateHeader()
 
 bool FlashStorage::write(void* data)
 {
-    if (header_.numEntries_ + header_.dataSize_ <= header_.numMaxEntries_)
+    if (header_.numEntries_ + 1 <= header_.numMaxEntries_)
     {
         uint8_t byteData[header_.dataSize_];  // Create a byte array to hold data
         memcpy(byteData, data, header_.dataSize_);  // Copy data to byte array
