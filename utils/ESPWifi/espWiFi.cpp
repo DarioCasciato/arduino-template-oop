@@ -2,8 +2,9 @@
 // Template-Project | Main
 // =============================================================================
 
+#ifdef ESP8266
+
 #include "espWiFi.h"
-#include "configurations.h"
 
 namespace
 {
@@ -25,3 +26,5 @@ void Wifi::establish()
 
     Serial.println("Connected to WiFi!");
 }
+
+#endif
