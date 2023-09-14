@@ -3,6 +3,7 @@
 // =============================================================================
 
 #include "Flash.h"
+#include "Logging.h"
 
 #define MAGIC_NUMBER 0x1234
 
@@ -26,11 +27,11 @@ namespace Flash
 
     void init()
     {
-        #ifdef ESP8266
+    #ifdef ESP8266
         EEPROM.begin(sizeof(Flash::Structure));
-        #else
+    #else
         EEPROM.begin();
-        #endif
+    #endif
 
         initStorage();
 
