@@ -18,7 +18,7 @@ namespace GPIO
     /// This enum represents the available digital and analog ports.
     /// Digital ports are labeled as D0, D1, etc., while analog ports
     /// are labeled as A0, A1, etc.
-    #ifdef ARDUINO_AVR_NANO
+#ifdef ARDUINO_AVR_NANO
     enum class Port : uint8_t
     {
         D0 = 0,
@@ -48,9 +48,9 @@ namespace GPIO
         A4 = A4,
         A5 = A5
     };
-    #endif
+#endif
 
-    #ifdef ARDUINO_AVR_UNO
+#ifdef ARDUINO_AVR_UNO
     enum class Port : uint8_t
     {
         D0 = 0,
@@ -80,9 +80,9 @@ namespace GPIO
         A4 = A4,
         A5 = A5
     };
-    #endif
+#endif
 
-    #ifdef ARDUINO_AVR_MEGA2560
+#ifdef ARDUINO_AVR_MEGA2560
     enum class Port : uint8_t
     {
         D0 = 0,
@@ -156,9 +156,9 @@ namespace GPIO
         A14 = A14,
         A15 = A15
     };
-    #endif
+#endif
 
-    #ifdef ESP8266
+#ifdef ESP8266
     enum class Port : uint8_t
     {
         D0 = 16,
@@ -174,7 +174,7 @@ namespace GPIO
         D10 = 1,
         A0 = A0
     };
-    #endif
+#endif
 
 } // namespace GPIO
 

@@ -14,7 +14,12 @@ namespace Flash
     // add flash memory definition here
     // example: extern FlashStorage testMemory;
 
+
+    /// @brief initializes the flash memory
     void init();
+
+    /// @brief clears all flash storages
+    void clear();
 
 } // namespace Flash
 

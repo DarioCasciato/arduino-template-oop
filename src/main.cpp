@@ -9,25 +9,35 @@
 #include "state.h"
 #include "Flash/Flash.h"
 
+#ifdef ESP8266
+#include "espWiFi.h"
+#endif
+
 void refreshData();
 
 //------------------------------------------------------------------------------
 
 void setup()
 {
-  Serial.begin(9600);
+#ifdef ESP8266
+    ESP.wdtEnable(WDTO_1S);
+    Serial.begin(115200);
+    Wifi::establish();
+#else
+    Serial.begin(9600);
+#endif
 
-  Flash::init();
+    Flash::init();
 }
 
 void loop()
 {
-  for (;;)
-  {
-    refreshData();
+    for (;;)
+    {
+        refreshData();
 
-    State::stateDriver();
-  }
+        State::stateDriver();
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -35,6 +45,6 @@ void loop()
 void refreshData()
 {
 
-  Hardware::updateHardware();
-  EdgeDetection::updateEdges();
+    Hardware::updateHardware();
+    EdgeDetection::updateEdges();
 }
