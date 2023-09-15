@@ -6,6 +6,7 @@
 #include "hardware.h"
 #include "configurations.h"
 #include "Timer.h"
+#include "Logging.h"
 
 //------------------------------------------------------------------------------
 
@@ -34,7 +35,8 @@ namespace State
     // State implementations
     void stateIdle()
     {
-
+        Logging::log("Idle\n");
+        delay(500);
     }
 
     void stateError()

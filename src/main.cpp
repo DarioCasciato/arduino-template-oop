@@ -24,10 +24,10 @@ void setup()
     Serial.begin(115200);
     Wifi::establish();
 #else
-    Serial.begin(9600);
+    Serial.begin(115200);
 #endif
 
-    Flash::init();
+    //Flash::init();
 }
 
 void loop()

@@ -30,7 +30,7 @@ namespace Flash
     #ifdef ESP8266
         EEPROM.begin(sizeof(Flash::Structure));
     #else
-        EEPROM.begin();
+        //EEPROM.begin();
     #endif
 
         initStorage();

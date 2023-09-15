@@ -12,7 +12,7 @@
 #define UTILS_GPIO_HANDLER_
 
 
-namespace GPIO
+namespace myGPIO
 {
     /// Get the state of a digital port.
     ///
@@ -37,6 +37,6 @@ namespace GPIO
     /// @param port The analog port to set.
     /// @param value The analog value in the range 0-255.
     void setAnalogPort(Hardware::Port port, uint8_t value);
-} // namespace GPIO
+} // namespace myGPIO
 
 #endif // UTILS_GPIO_HANDLER_

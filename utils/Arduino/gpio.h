@@ -11,7 +11,7 @@
 #include "../../src/hardware.h"
 
 
-namespace GPIO
+namespace myGPIO
 {
     /// Enumeration of digital and analog ports.
     ///
@@ -176,7 +176,7 @@ namespace GPIO
     };
 #endif
 
-} // namespace GPIO
+} // namespace myGPIO
 
 
 #endif // UTILS_GPIO_
