@@ -6,6 +6,7 @@
 #include "hardware.h"
 #include "configurations.h"
 #include "Timer.h"
+#include "Logging.h"
 
 //------------------------------------------------------------------------------
 
@@ -34,7 +35,11 @@ namespace State
     // State implementations
     void stateIdle()
     {
-
+        if(Hardware::button.getEdgePos())
+        {
+            Hardware::led.toggle();
+            Logging::log("Button pressed");
+        }
     }
 
     void stateError()
