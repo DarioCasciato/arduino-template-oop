@@ -39,23 +39,35 @@ The directory structure of this template repository is as follows:
 
 ```
 │
+├───lib
+│       README
+│
 ├───src
-│       configurations.h
-│       hardware.cpp
-│       hardware.h
-│       main.cpp
-│       state.cpp
-│       state.h
+│   │   configurations.h
+│   │   hardware.cpp
+│   │   hardware.h
+│   │   main.cpp
+│   │   state.cpp
+│   │   state.h
+│   │
+│   └───Flash
+│           Flash.cpp
+│           Flash.h
+│           FlashStructure.h
 │
 └───utils
     ├───Arduino
     ├───Buzzer
     ├───EdgeDetection
+    ├───ESPWifi
+    ├───FlashStorage
     ├───LED
-    ├───LED_RGB
+    ├───Logging
+    ├───MathUtils
     ├───Potentiometer
     ├───Security
     └───Timer
+
 ```
 
 - **`src/`**: This directory contains the main firmware code. You can create additional source files as needed, such as configuration files (`configurations.h`) or modules (`hardware.cpp`, `hardware.h`, etc.).
@@ -71,12 +83,12 @@ If you prefer to start with a clean slate and remove the example code provided i
 1. Switch to the "remove-template" branch using the following command:
 
    ```
-   git checkout remove-template
+   git checkout example-remove
    ```
 2. Merge the "remove-template" branch into the "main" branch:
 
    ```
-   git merge remove-template
+   git merge example-remove
    ```
 
    **Note:** Before merging, make sure you have committed or stashed any changes you made to the "main" branch to avoid conflicts.
