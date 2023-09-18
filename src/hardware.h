@@ -7,6 +7,7 @@
 
 #include "configurations.h"
 #include "gpio.h"
+#include "EdgeDetection.h"
 
 
 namespace Hardware
@@ -14,8 +15,11 @@ namespace Hardware
     // Port definitions
     enum class Port : uint8_t
     {
-
+        button = (uint8_t) GPIO::Port::D5
     };
+
+    extern uint8_t buttonState;
+    extern EdgeDetection button;
 
 
     /// @brief Initializes hardware

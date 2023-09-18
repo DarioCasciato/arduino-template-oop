@@ -11,7 +11,7 @@ namespace State
 {
     enum States : uint8_t
     {
-        st_idle,
+        st_app,
         st_error
     };
 
@@ -19,7 +19,7 @@ namespace State
     void stateDriver();
 
     /// @brief Handler for the Idle state
-    void stateIdle();
+    void stateApp();
 
     /// @brief Handler for the Error state
     void stateError();
