@@ -39,7 +39,7 @@ void FlashStorage::init()
     Header *readHeader = reinterpret_cast<Header*>(byteData);
 
     // Validate magic number
-    if (readHeader->magic != header_.magic)
+    if (readHeader->magic != header_.magic || readHeader->dataSize_ != header_.dataSize_)
     {
         // Header is invalid, initialize it
         updateHeader();
