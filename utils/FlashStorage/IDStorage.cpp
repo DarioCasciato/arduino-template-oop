@@ -64,7 +64,7 @@ void IDStorage::updateHeader()
     }
 }
 
-void IDStorage::write(uint8_t id, uint8_t* data, uint8_t size)
+bool IDStorage::write(uint8_t id, uint8_t* data, uint8_t size)
 {
 
 }
