@@ -11,18 +11,19 @@ namespace Flash
 {
     // add flash memory definition here
     // example: FlashStorage testMemory(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGICNUMBER);
-    FlashStorage storage(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGIC_NUMBER);
 
 
     // Add initializers here
     void initStorage()
     {
-        storage.init();
+        // example: storage.init();
+
     }
 
     void clear()
     {
-        storage.clear();
+        // example: storage.clear();
+
     }
 
     void init()

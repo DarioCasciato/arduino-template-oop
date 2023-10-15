@@ -9,6 +9,8 @@
 
 namespace Flash
 {
+    static uint16_t startOffsetAddress_;  ///< Static variable to hold the initial offset address for all instances
+
     void init();
 } // namespace Flash
 
@@ -18,7 +20,6 @@ namespace Flash
 class FlashStorage
 {
 private:
-    static uint16_t startOffsetAddress_;  ///< Static variable to hold the initial offset address for all instances
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
 
     struct Header
