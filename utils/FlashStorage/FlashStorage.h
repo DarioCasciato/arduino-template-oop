@@ -9,7 +9,13 @@
 
 namespace Flash
 {
-    static uint16_t startOffsetAddress_;  ///< Static variable to hold the initial offset address for all instances
+    // Disable the "defined but not used" warning for the startOffsetAddress_ variable
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-variable"
+
+    static uint16_t startOffsetAddress_;
+
+    #pragma GCC diagnostic pop
 
     void init();
 } // namespace Flash
