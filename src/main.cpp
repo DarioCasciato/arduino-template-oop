@@ -9,9 +9,12 @@
 #include "state.h"
 #include "Flash/Flash.h"
 
-#ifdef ESP8266
+#ifdef ESP32
 #include "espWiFi.h"
+#include <BluetoothSerial.h>
 #endif
+
+
 
 void refreshData();
 
@@ -19,15 +22,17 @@ void refreshData();
 
 void setup()
 {
-#ifdef ESP8266
-    ESP.wdtEnable(WDTO_1S);
+#ifdef ESP32
+    // ESP.wdtEnable(WDTO_1S);
     Serial.begin(115200);
-    Wifi::establish();
+    // Wifi::establish();
+    Hardware::SerialBT.begin("ESP32test"); //Bluetooth device name
+
 #else
     Serial.begin(9600);
 #endif
 
-    Flash::init();
+    // Flash::init();
 }
 
 void loop()

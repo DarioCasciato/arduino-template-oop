@@ -7,12 +7,13 @@
 #include "../../src/hardware.h"
 #include "../EdgeDetection/EdgeDetection.h"
 #include "../LED/LED.h"
+#include <BluetoothSerial.h>
 
 #ifndef UTILS_GPIO_HANDLER_
 #define UTILS_GPIO_HANDLER_
 
 
-namespace GPIO
+namespace vGPIO
 {
     /// Get the state of a digital port.
     ///

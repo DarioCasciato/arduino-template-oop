@@ -6,6 +6,9 @@
 #include "hardware.h"
 #include "configurations.h"
 #include "Timer.h"
+#include <BluetoothSerial.h>
+
+
 
 //------------------------------------------------------------------------------
 
@@ -34,7 +37,11 @@ namespace State
     // State implementations
     void stateIdle()
     {
-
+        if (Hardware::SerialBT.available())
+        {
+            char incomingChar = Hardware::SerialBT.read();
+            Serial.print(incomingChar);
+        }
     }
 
     void stateError()

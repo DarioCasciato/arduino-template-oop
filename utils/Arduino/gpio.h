@@ -11,7 +11,7 @@
 #include "../../src/hardware.h"
 
 
-namespace GPIO
+namespace vGPIO
 {
     /// Enumeration of digital and analog ports.
     ///
