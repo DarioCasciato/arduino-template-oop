@@ -6,6 +6,7 @@
 #define UTILS_FLASH_
 
 #include "FlashStorage.h"
+#include "IDStorage.h"
 #include "FlashStructure.h"
 #include <EEPROM.h>
 
@@ -13,7 +14,7 @@ namespace Flash
 {
     // add flash memory definition here
     // example: extern FlashStorage testMemory;
-
+    
 
     /// @brief initializes the flash memory
     void init();
