@@ -12,7 +12,6 @@ namespace Flash
     struct Structure
     {
         uint8_t memory1[0x200]; // 512 bytes
-        uint8_t memory2[0x400]; // 1024 bytes
     };
 } // namespace Flash
 

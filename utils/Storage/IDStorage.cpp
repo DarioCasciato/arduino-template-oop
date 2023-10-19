@@ -110,7 +110,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
     // write to eeprom
     for(uint8_t i = 0; i < size; i++)
     {
-        EEPROM.write(header_.nextAddr_ + 2 + i, cData[i]);
+        EEPROM.write(addr + 2 + i, cData[i]);
     }
 
     header_.numEntries_++;
@@ -156,7 +156,7 @@ bool IDStorage::write(uint8_t id, String data)
             // write to eeprom
             for (uint8_t i = 0; i < size; i++)
             {
-                EEPROM.write(header_.nextAddr_ + 2 + i, cData[i]);
+                EEPROM.write(addr + 2 + i, cData[i]);
             }
 
             updateHeader();
