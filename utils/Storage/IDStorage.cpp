@@ -7,7 +7,6 @@
 #include <EEPROM.h>
 
 #include "FlashStorage.h"
-#include "Logging.h"
 
 
 IDStorage::IDStorage(uint16_t storageSize, uint16_t magicNumber)
@@ -100,6 +99,8 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 
             return true;
         }
+
+        addr += 2 + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
     }
 
     // id does not exist, write it
@@ -166,6 +167,7 @@ bool IDStorage::write(uint8_t id, String data)
 
             return true;
         }
+
         addr += 2 + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
     }
 
@@ -205,13 +207,11 @@ bool IDStorage::read(uint8_t id, void* data)
         {
             // id found, read size
             uint8_t size = EEPROM.read(addr + 1);
-            Logging::log("IDStorage::read: id=%d, size=%d", id, size);
 
             // read from eeprom
             for(uint8_t j = 0; j < size; j++)
             {
                 cData[j] = EEPROM.read(addr + 2 + j);
-                Logging::log("Read byte %d: %02x", j, cData[j]);  // Log each byte as it's read
             }
 
             return true;
