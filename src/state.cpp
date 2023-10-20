@@ -7,6 +7,9 @@
 #include "configurations.h"
 #include "Timer.h"
 #include "Logging.h"
+#include "espWiFi.h"
+
+void getWifiCredentials(String& ssid, String& password, String receivedString);
 
 //------------------------------------------------------------------------------
 
@@ -35,9 +38,9 @@ namespace State
     // State implementations
     void stateIdle()
     {
-        // Create two character pointers to store the SSID and password
-        char* ssid = nullptr;
-        char* password = nullptr;
+        // Create two String objects to store the SSID and password
+        String ssid;
+        String password;
 
         // If there is data available on the serial port, read it
         if (Hardware::SerialBT.available())
@@ -45,23 +48,18 @@ namespace State
             // Read the entire line from the serial port
             String line = Hardware::SerialBT.readStringUntil('\n');
 
-            // Split the line into two strings at the backslash character
-            String ssidString = line.substring(0, line.indexOf('\\'));
-            String passwordString = line.substring(line.indexOf('\\') + 1, line.length());
+            // Get the SSID and password from the line
+            getWifiCredentials(ssid, password, line);
 
-            // Allocate memory for the SSID and password strings
-            ssid = new char[ssidString.length() + 1];
-            password = new char[passwordString.length() + 1];
+            // Try to connect to the WiFi network
+            if(Wifi::establish(ssid, password))
+            {
 
-            // Copy the SSID and password strings to the allocated memory
-            strcpy(ssid, ssidString.c_str());
-            strcpy(password, passwordString.c_str());
-
-            Logging::log("SSID: %s", ssid);
-            Logging::log("Password: %s", password);
+            }
         }
 
-        // Once the SSID and password have been read, delay for 10ms
+
+
         delay(10);
     }
 
@@ -74,3 +72,13 @@ namespace State
 //------------------------------------------------------------------------------
 
 // Other Functions
+
+void getWifiCredentials(String& ssid, String& password, String receivedString)
+{
+    // Split the line into two strings at the backslash character
+    ssid = receivedString.substring(0, receivedString.indexOf('\\'));
+    password = receivedString.substring(receivedString.indexOf('\\') + 1, receivedString.length() - 1);
+
+    Logging::log("SSID: %s", ssid.c_str());
+    Logging::log("Password: %s", password.c_str());
+}
