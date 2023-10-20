@@ -93,7 +93,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 
             updateHeader();
 
-        #ifdef ESP8266
+        #if defined(ESP32) || defined(ESP8266)
             EEPROM.commit();
         #endif
 
@@ -118,7 +118,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 
     updateHeader();
 
-#ifdef ESP8266
+#if defined(ESP32) || defined(ESP8266)
     EEPROM.commit();
 #endif
 
@@ -161,7 +161,7 @@ bool IDStorage::write(uint8_t id, String data)
 
             updateHeader();
 
-        #ifdef ESP8266
+        #if defined(ESP32) || defined(ESP8266)
             EEPROM.commit();
         #endif
 
@@ -186,7 +186,7 @@ bool IDStorage::write(uint8_t id, String data)
 
     updateHeader();
 
-#ifdef ESP8266
+#if defined(ESP32) || defined(ESP8266)
     EEPROM.commit();
 #endif
 
@@ -240,7 +240,7 @@ bool IDStorage::clear()
 
     updateHeader();
 
-#ifdef ESP8266
+#if defined(ESP32) || defined(ESP8266)
     EEPROM.commit();
 #endif
 

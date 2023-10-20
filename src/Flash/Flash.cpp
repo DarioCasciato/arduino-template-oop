@@ -5,32 +5,32 @@
 #include "Flash.h"
 #include "Logging.h"
 
-#define MAGIC_NUMBER 0x1234
+#define MAGIC_NUMBER 0x0808
 
 namespace Flash
 {
     // add flash memory definition here
     // example: FlashStorage testMemory(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGICNUMBER);
-    FlashStorage storage(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGIC_NUMBER);
+    IDStorage credentials(sizeof(Flash::Structure::credentials_m), MAGIC_NUMBER);
 
 
     // Add initializers here
     void initStorage()
     {
-        storage.init();
+        credentials.init();
     }
 
     void clear()
     {
-        storage.clear();
+        credentials.clear();
     }
 
     void init()
     {
-    #ifdef ESP8266
+    #if defined(ESP32) || defined(ESP8266)
         EEPROM.begin(sizeof(Flash::Structure));
     #else
-        //EEPROM.begin();
+        EEPROM.begin();
     #endif
 
         initStorage();

@@ -62,7 +62,7 @@ void FlashStorage::updateHeader()
         EEPROM.write(header_.startAddr_ + i, byteData[i]);
     }
 
-    #ifdef ESP8266
+    #if defined(ESP32) || defined(ESP8266)
     EEPROM.commit();
     #endif
 }
@@ -85,7 +85,7 @@ bool FlashStorage::write(void* data)
 
         updateHeader();
 
-        #ifdef ESP8266
+        #if defined(ESP32) || defined(ESP8266)
         EEPROM.commit();
         #endif
         return true;
@@ -120,7 +120,7 @@ bool FlashStorage::write(uint16_t index, void* data)
             updateHeader();
         }
 
-        #ifdef ESP8266
+        #if defined(ESP32) || defined(ESP8266)
         EEPROM.commit();
         #endif
 
@@ -193,7 +193,7 @@ bool FlashStorage::clear()
 
     updateHeader();
 
-    #ifdef ESP8266
+    #if defined(ESP32) || defined(ESP8266)
     EEPROM.commit();
     #endif
 

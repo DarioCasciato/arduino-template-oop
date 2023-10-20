@@ -8,21 +8,28 @@
 #include "Timer.h"
 #include "Logging.h"
 #include "espWiFi.h"
+#include "Flash/Flash.h"
+#include "Flash/FlashStructure.h"
+
+// create to_underlying macro for enums
+#define to_underlying(x) uint8_t(x)
 
 void getWifiCredentials(String& ssid, String& password, String receivedString);
+void printSSIDHex(const char* ssid);
 
 //------------------------------------------------------------------------------
 
 namespace State
 {
-    States state = States::st_idle;
+    States state = States::st_startup;
 
     void stateDriver()
     {
         switch (State::state)
         {
-        case State::st_idle: stateIdle(); break;
-        case State::st_error: stateError(); break;
+        case State::st_startup: stateStartup(); break;
+        case State::st_connecting: stateConnecting(); break;
+        case State::st_connected: stateConnected(); break;
 
         default:    // catch invalid state (implement safety backup)
         goto exception;
@@ -35,8 +42,35 @@ namespace State
             for(;;) {}
     }
 
+    void stateStartup()
+    {
+        String ssid;
+        String password;
+
+        if(Flash::credentials.read(to_underlying(Flash::ID::SSID), &ssid)
+           && Flash::credentials.read(to_underlying(Flash::ID::PASSWORD), &password))
+        {
+            printSSIDHex(ssid.c_str());
+            printSSIDHex(password.c_str());
+
+            if(Wifi::establish(ssid, password))
+            {
+                State::state = State::st_connected;
+            }
+            else
+            {
+                State::state = State::st_connecting;
+            }
+        }
+        else
+        {
+            State::state = State::st_connecting;
+        }
+    }
+
+
     // State implementations
-    void stateIdle()
+    void stateConnecting()
     {
         // Create two String objects to store the SSID and password
         String ssid;
@@ -51,10 +85,17 @@ namespace State
             // Get the SSID and password from the line
             getWifiCredentials(ssid, password, line);
 
+            printSSIDHex(ssid.c_str());
+            printSSIDHex(password.c_str());
+
             // Try to connect to the WiFi network
             if(Wifi::establish(ssid, password))
             {
+                // If the connection was successful, save credentials to flash
+                Flash::credentials.write(to_underlying(Flash::ID::SSID), ssid);
+                Flash::credentials.write(to_underlying(Flash::ID::PASSWORD), password);
 
+                State::state = State::st_connected;
             }
         }
 
@@ -63,9 +104,12 @@ namespace State
         delay(10);
     }
 
-    void stateError()
+    void stateConnected()
     {
+        delay(5000);
 
+        if(WiFi.status() == WL_CONNECTED)
+            Logging::log("Connection to WiFi still active");
     }
 } // namespace State
 
@@ -81,4 +125,11 @@ void getWifiCredentials(String& ssid, String& password, String receivedString)
 
     Logging::log("SSID: %s", ssid.c_str());
     Logging::log("Password: %s", password.c_str());
+}
+
+void printSSIDHex(const char* ssid) {
+  for (int i = 0; i < strlen(ssid); i++) {
+    printf("%02x", ssid[i]);
+  }
+  printf("\n");
 }
