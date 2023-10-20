@@ -14,7 +14,7 @@ namespace Flash
 {
     // add flash memory definition here
     // example: extern FlashStorage testMemory;
-    extern IDStorage testMemory;
+
 
     /// @brief initializes the flash memory
     void init();

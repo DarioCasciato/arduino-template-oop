@@ -86,9 +86,9 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
             addr += 2; // skip id and length
 
             // write to eeprom
-            for(uint8_t i = 0; i < size; i++)
+            for(uint8_t i = 0; i < EEPROM.read(addr - 1); i++)
             {
-                EEPROM.write(header_.nextAddr_ + 2 + i, cData[i]);
+                EEPROM.write(addr + i, cData[i]);
             }
 
             updateHeader();
@@ -110,7 +110,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
     // write to eeprom
     for(uint8_t i = 0; i < size; i++)
     {
-        EEPROM.write(addr + 2 + i, cData[i]);
+        EEPROM.write(header_.nextAddr_ + 2 + i, cData[i]);
     }
 
     header_.numEntries_++;
@@ -131,7 +131,7 @@ bool IDStorage::write(uint8_t id, String data)
     uint8_t size = data.length() + 1;  // +1 for the null terminator
 
     // + 2 for id and length
-    if (header_.nextAddr_ + size + 2 > header_.startAddr_ + header_.storageSize_)
+    if(header_.nextAddr_ + size + 2 > header_.startAddr_ + header_.storageSize_)
     {
         return false; // storage is full
     }
@@ -145,18 +145,18 @@ bool IDStorage::write(uint8_t id, String data)
     // check if id already exists
     uint16_t addr = header_.startAddr_ + sizeof(header_);
 
-    for (uint8_t i = 0; i < header_.numEntries_; i++)
+    for(uint8_t i = 0; i < header_.numEntries_; i++)
     {
         uint8_t readId = EEPROM.read(addr);
-        if (readId == id)
+        if(readId == id)
         {
             // id already exists, overwrite it
             addr += 2; // skip id and length
 
             // write to eeprom
-            for (uint8_t i = 0; i < size; i++)
+            for(uint8_t i = 0; i < (EEPROM.read(addr - 1) - 1); i++)
             {
-                EEPROM.write(addr + 2 + i, cData[i]);
+                EEPROM.write(addr + i, cData[i]);
             }
 
             updateHeader();
@@ -176,7 +176,7 @@ bool IDStorage::write(uint8_t id, String data)
     EEPROM.write(header_.nextAddr_ + 1, size);
 
     // write to eeprom
-    for (uint8_t i = 0; i < size; i++)
+    for(uint8_t i = 0; i < size; i++)
     {
         EEPROM.write(header_.nextAddr_ + 2 + i, cData[i]);
     }
