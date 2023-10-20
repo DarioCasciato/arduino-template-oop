@@ -8,7 +8,7 @@
 
 namespace Hardware
 {
-
+    BluetoothSerial SerialBT;
 
     void init()
     {

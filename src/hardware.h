@@ -7,6 +7,7 @@
 
 #include "configurations.h"
 #include "gpio.h"
+#include <BluetoothSerial.h>
 
 
 namespace Hardware
@@ -17,6 +18,7 @@ namespace Hardware
 
     };
 
+    extern BluetoothSerial SerialBT;
 
     /// @brief Initializes hardware
     void init();

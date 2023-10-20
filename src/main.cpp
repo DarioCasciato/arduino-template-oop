@@ -27,6 +27,8 @@ void setup()
     Serial.begin(115200);
 #endif
 
+    Hardware::SerialBT.begin("ESP32test"); //Bluetooth device name
+
     //Flash::init();
 }
 
