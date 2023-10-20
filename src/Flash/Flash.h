@@ -6,6 +6,7 @@
 #define UTILS_FLASH_
 
 #include "FlashStorage.h"
+#include "IDStorage.h"
 #include "FlashStructure.h"
 #include <EEPROM.h>
 

@@ -6,14 +6,12 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 
-uint16_t FlashStorage::startOffsetAddress_ = 0;
-
 FlashStorage::FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber)
     : initialized_(false) // Initialize to false
 {
     header_.magic = magicNumber;  // Assign the passed magic number
-    header_.startAddr_ = startOffsetAddress_;
-    startOffsetAddress_ += storageSize + sizeof(header_);
+    header_.startAddr_ = Flash::startOffsetAddress_;
+    Flash::startOffsetAddress_ += storageSize + sizeof(header_);
     header_.storageSize_ = storageSize + sizeof(header_);
     header_.dataSize_ = dataSize;
     header_.numMaxEntries_ = storageSize / dataSize;
