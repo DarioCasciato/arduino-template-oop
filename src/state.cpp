@@ -50,7 +50,11 @@ namespace State
         if(Flash::credentials.read(to_underlying(Flash::ID::SSID), &ssid)
            && Flash::credentials.read(to_underlying(Flash::ID::PASSWORD), &password))
         {
+            Logging::log("Found credentials in flash");
+
+            Logging::log("SSID: ");
             printSSIDHex(ssid.c_str());
+            Logging::log("Password: ");
             printSSIDHex(password.c_str());
 
             if(Wifi::establish(ssid, password))

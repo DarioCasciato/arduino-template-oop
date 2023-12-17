@@ -8,6 +8,7 @@
 #include "configurations.h"
 #include "state.h"
 #include "Flash/Flash.h"
+#include "ePaper/ePaper.h"
 
 
 void refreshData();
@@ -17,6 +18,7 @@ void refreshData();
 void setup()
 {
     Serial.begin(115200);
+    ePaper::init();
 
     Hardware::SerialBT.begin("ESP32test"); //Bluetooth device name
 
