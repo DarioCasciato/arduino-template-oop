@@ -8,7 +8,7 @@
 #include "configurations.h"
 #include "state.h"
 #include "Flash/Flash.h"
-#include "ePaper/ePaper.h"
+#include "ePaper.h"
 
 
 void refreshData();

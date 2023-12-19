@@ -60,6 +60,12 @@ public:
     /// @return True if the read was successful, false otherwise
     bool read(uint8_t id, void* destination);
 
+    /// @brief Get the size of the data associated with a specific ID.
+    ///
+    /// @param id ID from which the data size should be read
+    /// @return Size of the data
+    uint8_t getSize(uint8_t id);
+
     /// @brief Clear all data in the storage area.
     ///
     /// @return True if the clear operation was successful, false otherwise

@@ -228,6 +228,30 @@ bool IDStorage::read(uint8_t id, void* data)
     return false; // id not found
 }
 
+uint8_t IDStorage::getSize(uint8_t id)
+{
+    uint16_t addr = header_.startAddr_ + sizeof(header_);
+
+    for(uint8_t i = 0; i < header_.numEntries_; i++)
+    {
+        uint8_t readId = EEPROM.read(addr);
+        if(readId == id)
+        {
+            // id found, read size
+            return EEPROM.read(addr + 1);
+        }
+
+        addr += EEPROM.read(addr + 1) + 2; // skip id and length
+
+        if(addr >= header_.nextAddr_)
+        {
+            return 0; // id not found
+        }
+    }
+
+    return 0; // id not found
+}
+
 bool IDStorage::clear()
 {
     for (uint16_t i = sizeof(header_); i < header_.storageSize_; i++)

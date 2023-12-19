@@ -26,7 +26,7 @@ namespace State
     void stateConnecting();
 
     /// @brief Handler for the Error state
-    void stateConnected();
+    void stateApp();
 } // namespace State
 
 #endif // _TEMPLATE_PROJECT_STATE_

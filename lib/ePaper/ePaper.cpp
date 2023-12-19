@@ -1,4 +1,4 @@
-# include <ePaper/ePaper.h>
+# include "ePaper.h"
 
 #if defined(USING_SOFT_SPI)
 GxIO_Class io(EPD_SCLK, EPD_MISO, EPD_MOSI,  EPD_CS, EPD_DC,  EPD_RSET);
