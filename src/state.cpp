@@ -33,6 +33,9 @@ namespace State
             break;
         }
 
+
+        delay(10); // not triggering watchdog
+
         return;
 
         exception:
@@ -99,10 +102,6 @@ namespace State
                 State::state = State::st_connected;
             }
         }
-
-
-
-        delay(10);
     }
 
 
