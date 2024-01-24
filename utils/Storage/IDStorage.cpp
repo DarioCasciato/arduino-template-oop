@@ -119,7 +119,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
     }
 
     header_.numEntries_++;
-    header_.nextAddr_ += size + tagAndLengthSize;
+    header_.nextAddr_ += tagAndLengthSize + size;
 
     updateHeader();
 
@@ -221,7 +221,7 @@ bool IDStorage::read(uint8_t id, void* data)
             return true;
         }
 
-        addr += EEPROM.read(addr + 1) + ; // skip id and length
+        addr += EEPROM.read(addr + 1) + tagAndLengthSize; // skip id and length
 
         if(addr >= header_.nextAddr_)
         {
