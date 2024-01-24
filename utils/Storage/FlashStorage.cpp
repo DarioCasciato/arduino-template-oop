@@ -3,21 +3,23 @@
 // =============================================================================
 
 #include "FlashStorage.h"
+#include "../../src/Flash/FlashStructure.h"
 #include <Arduino.h>
 #include <EEPROM.h>
 
-FlashStorage::FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber)
-    : initialized_(false) // Initialize to false
+FlashStorage::FlashStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber)
+    : initialized_(false)
 {
-    header_.magic = magicNumber;  // Assign the passed magic number
-    header_.startAddr_ = Flash::startOffsetAddress_;
-    Flash::startOffsetAddress_ += storageSize + sizeof(header_);
+    // Calculate the offset of the start address from the base of the Flash::Layout
+    header_.startAddr_ = startAddr - reinterpret_cast<uint8_t*>(&Flash::flashLayout);
     header_.storageSize_ = storageSize + sizeof(header_);
     header_.dataSize_ = dataSize;
     header_.numMaxEntries_ = storageSize / dataSize;
     header_.numEntries_ = 0;
     header_.nextAddr_ = header_.startAddr_ + sizeof(header_);
+    header_.magic = magicNumber;
 }
+
 
 void FlashStorage::init()
 {

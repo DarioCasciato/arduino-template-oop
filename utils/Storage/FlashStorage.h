@@ -7,19 +7,6 @@
 
 #include <stdint.h>
 
-namespace Flash
-{
-    // Disable the "defined but not used" warning for the startOffsetAddress_ variable
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-variable"
-
-    static uint16_t startOffsetAddress_;
-
-    #pragma GCC diagnostic pop
-
-    void init();
-} // namespace Flash
-
 
 /// @class FlashStorage
 /// @brief Class for handling storage in flash memory.
@@ -47,7 +34,7 @@ public:
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param dataSize Size of individual data entries
-    FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber);
+    FlashStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber);
 
     /// @brief Initialize the storage area.
     void init();

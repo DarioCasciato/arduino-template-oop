@@ -9,9 +9,11 @@
 
 namespace Flash
 {
+    Layout flashLayout; // Definition of the global instance
+
     // add flash memory definition here
-    // example: FlashStorage testMemory(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGICNUMBER);
-    FlashStorage storage(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGIC_NUMBER);
+    FlashStorage storage(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(DataType), MAGIC_NUMBER);
+    IDStorage idStorage(&flashLayout.memory2[0], sizeof(flashLayout.memory2), MAGIC_NUMBER);
 
 
     // Add initializers here

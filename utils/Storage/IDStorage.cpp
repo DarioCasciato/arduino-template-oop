@@ -6,19 +6,19 @@
 #include "Arduino.h"
 #include <EEPROM.h>
 
-#include "FlashStorage.h"
+#include "../../src/Flash/FlashStructure.h"
 
 
-IDStorage::IDStorage(uint16_t storageSize, uint16_t magicNumber)
-    : initialized_(false) // Initialize to false
+IDStorage::IDStorage(uint8_t* startAddr, uint16_t storageSize, uint16_t magicNumber)
+    : initialized_(false)
 {
-    header_.magic = magicNumber;  // Assign the passed magic number
-    header_.startAddr_ = Flash::startOffsetAddress_;
-    Flash::startOffsetAddress_ += storageSize + sizeof(header_);
+    // Similar calculation for start address offset
+    header_.startAddr_ = startAddr - reinterpret_cast<uint8_t*>(&Flash::flashLayout);
     header_.storageSize_ = storageSize + sizeof(header_);
-    header_.numMaxEntries_ = 0;
+    header_.numMaxEntries_ = 0; // As per your original logic
     header_.numEntries_ = 0;
     header_.nextAddr_ = header_.startAddr_ + sizeof(header_);
+    header_.magic = magicNumber;
 }
 
 void IDStorage::init()
