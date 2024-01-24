@@ -14,6 +14,7 @@ class FlashStorage
 {
 private:
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
+    const uint16_t magicNumber {0xA6A6};  ///< Magic number to identify the header
 
     struct Header
     {
@@ -34,7 +35,7 @@ public:
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param dataSize Size of individual data entries
-    FlashStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber);
+    FlashStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize);
 
     /// @brief Initialize the storage area.
     void init();

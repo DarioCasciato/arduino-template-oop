@@ -9,7 +9,7 @@
 #include "../../src/Flash/FlashStructure.h"
 
 
-IDStorage::IDStorage(uint8_t* startAddr, uint16_t storageSize, uint16_t magicNumber)
+IDStorage::IDStorage(uint8_t* startAddr, uint16_t storageSize)
     : initialized_(false)
 {
     // Similar calculation for start address offset

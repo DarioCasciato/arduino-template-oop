@@ -7,7 +7,7 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 
-FlashStorage::FlashStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber)
+FlashStorage::FlashStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize)
     : initialized_(false)
 {
     // Calculate the offset of the start address from the base of the Flash::Layout
