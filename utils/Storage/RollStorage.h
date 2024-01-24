@@ -1,16 +1,16 @@
 // =============================================================================
-// Utils | FlashStorage
+// Utils | RollStorage
 // =============================================================================
 
-#ifndef UTILS_FLASH_STORAGE_
-#define UTILS_FLASH_STORAGE_
+#ifndef UTILS_ROLL_STORAGE_
+#define UTILS_ROLL_STORAGE_
 
 #include <stdint.h>
 
 
-/// @class FlashStorage
+/// @class RollStorage
 /// @brief Class for handling storage in flash memory.
-class FlashStorage
+class RollStorage
 {
 private:
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
@@ -31,11 +31,11 @@ private:
     void updateHeader();
 
 public:
-    /// @brief Constructor for the FlashStorage class.
+    /// @brief Constructor for the RollStorage class.
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param dataSize Size of individual data entries
-    FlashStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize);
+    RollStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize);
 
     /// @brief Initialize the storage area.
     void init();
@@ -88,4 +88,4 @@ public:
 };
 
 
-#endif // UTILS_FLASH_STORAGE_
+#endif // UTILS_ROLL_STORAGE_
