@@ -255,4 +255,3 @@ bool IDStorage::clear()
 
     return true;
 }
-

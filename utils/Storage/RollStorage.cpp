@@ -176,4 +176,3 @@ bool RollStorage::clear()
 
     return true;
 }
-
