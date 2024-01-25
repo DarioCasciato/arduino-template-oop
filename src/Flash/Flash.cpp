@@ -4,6 +4,7 @@
 
 #include "Flash.h"
 #include "Logging.h"
+#include "configurations.h"
 
 namespace Flash
 {
@@ -32,6 +33,8 @@ namespace Flash
 
     void init()
     {
+        if(!USE_FLASH) { return; }
+
     #ifdef ESP8266
         EEPROM.begin(sizeof(Flash::Layout));
     #else
