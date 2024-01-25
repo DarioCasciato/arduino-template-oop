@@ -12,9 +12,9 @@ RollStorage::RollStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataS
 {
     // Calculate the offset of the start address from the base of the Flash::Layout
     header_.startAddr_ = startAddr - reinterpret_cast<uint8_t*>(&Flash::flashLayout);
-    header_.storageSize_ = storageSize + sizeof(header_);
+    header_.storageSize_ = storageSize;
     header_.dataSize_ = dataSize;
-    header_.numMaxEntries_ = storageSize / dataSize;
+    header_.numMaxEntries_ = (storageSize - sizeof(header_)) / dataSize;
     header_.numEntries_ = 0;
     header_.nextAddr_ = header_.startAddr_ + sizeof(header_);
     header_.magic = magicNumber;
@@ -69,24 +69,28 @@ void RollStorage::updateHeader()
     #endif
 }
 
-bool RollStorage::write(void* data) {
-    uint8_t byteData[header_.dataSize_];
-    memcpy(byteData, data, header_.dataSize_);
+bool RollStorage::write(void* data)
+{
+    // cast data* to uint8 array
+    uint8_t* byteData = reinterpret_cast<uint8_t*>(data);
 
     // Write byte array to EEPROM
-    for (uint16_t i = 0; i < header_.dataSize_; i++) {
+    for (uint16_t i = 0; i < header_.dataSize_; i++)
+    {
         EEPROM.write(header_.nextAddr_ + i, byteData[i]);
     }
 
     header_.nextAddr_ += header_.dataSize_;
 
     // Wrap around if we reach the end of the storage
-    if (header_.nextAddr_ >= header_.startAddr_ + header_.storageSize_) {
+    if (header_.nextAddr_ >= header_.startAddr_ + header_.storageSize_)
+    {
         header_.nextAddr_ = header_.startAddr_ + sizeof(header_);
     }
 
     // Increment numEntries_ but don't exceed numMaxEntries_
-    if (header_.numEntries_ < header_.numMaxEntries_) {
+    if (header_.numEntries_ < header_.numMaxEntries_)
+    {
         header_.numEntries_++;
     }
 
@@ -100,20 +104,24 @@ bool RollStorage::write(void* data) {
 
 
 
-bool RollStorage::read(uint16_t index, void* data) {
-    if (index >= header_.numEntries_) {
+bool RollStorage::read(uint16_t index, void* data)
+{
+    if (index >= header_.numEntries_)
+    {
         return false; // Index out of range
     }
 
-    uint16_t readAddr = header_.nextAddr_ - (index + 1) * header_.dataSize_;
+    uint16_t readAddr = header_.nextAddr_ - ((index + 1) * header_.dataSize_);
 
     // Wrap around if necessary
-    if (readAddr < header_.startAddr_ + sizeof(header_)) {
-        readAddr += header_.storageSize_;
+    if (readAddr < header_.startAddr_ + sizeof(header_))
+    {
+        readAddr += header_.storageSize_- sizeof(header_);
     }
 
     uint8_t byteData[header_.dataSize_];
-    for (uint16_t i = 0; i < header_.dataSize_; i++) {
+    for (uint16_t i = 0; i < header_.dataSize_; i++)
+    {
         byteData[i] = EEPROM.read(readAddr + i);
     }
     memcpy(data, byteData, header_.dataSize_);
@@ -121,22 +129,28 @@ bool RollStorage::read(uint16_t index, void* data) {
 }
 
 
-bool RollStorage::readLast(void* data) {
-    if (header_.numEntries_ == 0) {
+bool RollStorage::readLast(void* data)
+{
+    if (header_.numEntries_ == 0)
+    {
         return false; // No entries to read
     }
 
     uint16_t readAddr;
-    if (header_.nextAddr_ == header_.startAddr_ + sizeof(header_)) {
-        // Buffer has wrapped around, read the last entry in the buffer
+    if (header_.nextAddr_ == header_.startAddr_ + sizeof(header_))
+    {
+        // Read Entry at the very end of the storage. if next addr is at the start of the storage (i.e. we have wrapped around)
         readAddr = header_.startAddr_ + header_.storageSize_ - header_.dataSize_;
-    } else {
+    }
+    else
+    {
         // Read the entry just before nextAddr_
         readAddr = header_.nextAddr_ - header_.dataSize_;
     }
 
     uint8_t byteData[header_.dataSize_];
-    for (uint16_t i = 0; i < header_.dataSize_; i++) {
+    for (uint16_t i = 0; i < header_.dataSize_; i++)
+    {
         byteData[i] = EEPROM.read(readAddr + i);
     }
     memcpy(data, byteData, header_.dataSize_);

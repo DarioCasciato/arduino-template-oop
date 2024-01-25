@@ -14,7 +14,7 @@ class RollStorage
 {
 private:
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
-    const uint16_t magicNumber {0xA6A6};  ///< Magic number to identify the header
+    const uint16_t magicNumber {0xA7A7};  ///< Magic number to identify the header
 
     struct Header
     {
@@ -45,13 +45,6 @@ public:
     /// @param data Pointer to the data to be written
     /// @return True if the write was successful, false otherwise
     bool write(void* data);
-
-    /// @brief Write data to a specific index.
-    ///
-    /// @param index Index at which the data should be written
-    /// @param data Pointer to the data to be written
-    /// @return True if the write was successful, false otherwise
-    bool write(uint16_t index, void* data);
 
     /// @brief Read data from a specific index.
     ///
