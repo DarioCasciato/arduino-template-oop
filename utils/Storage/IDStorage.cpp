@@ -198,7 +198,7 @@ bool IDStorage::write(uint8_t id, String data)
 }
 
 
-bool IDStorage::read(uint8_t id, void* data)
+bool IDStorage::read(uint8_t id, void* data, uint8_t size)
 {
     uint16_t addr = header_.startAddr_ + sizeof(header_);
 
@@ -210,10 +210,15 @@ bool IDStorage::read(uint8_t id, void* data)
         if(readId == id)
         {
             // id found, read size
-            uint8_t size = EEPROM.read(addr + 1);
+            uint8_t dataSize = EEPROM.read(addr + 1);
+
+            if(size < dataSize)
+            {
+                return false; // data buffer too small
+            }
 
             // read from eeprom
-            for(uint8_t j = 0; j < size; j++)
+            for(uint8_t j = 0; j < dataSize; j++)
             {
                 cData[j] = EEPROM.read(addr + tagAndLengthSize + j);
             }
