@@ -14,9 +14,14 @@ namespace Flash
 
 
     // Add initializers here
+    namespace
+    {
+
     void initStorage()
     {
         // Example: storage.init();
+    }
+
     }
 
     void clear()
