@@ -7,7 +7,7 @@
 #ifndef ARDUINO_OBJECTS_LED_
 #define ARDUINO_OBJECTS_LED_
 
-enum activeLevel
+enum ActiveLevel
 {
     LOW_ACTIVE,
     HIGH_ACTIVE
@@ -22,14 +22,14 @@ class LED
 {
 private:
     uint8_t _pin;
-    activeLevel _activeLevel;
+    ActiveLevel _activeLevel;
 
 public:
     /// @brief LED constructor
     ///
     /// @param pin The pin number to which the LED is connected
-    /// @param ActiveLevel The active level of the LED (LOW_ACTIVE or HIGH_ACTIVE)
-    LED(uint8_t pin, activeLevel ActiveLevel);
+    /// @param activeLevel The active level of the LED (LOW_ACTIVE or HIGH_ACTIVE)
+    LED(uint8_t pin, ActiveLevel activeLevel);
 
     /// @brief Set the level of the LED
     ///

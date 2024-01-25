@@ -18,5 +18,18 @@ namespace Wifi
     /// @param ssid The SSID of the Wi-Fi network.
     /// @param password The password of the Wi-Fi network.
     /// @return True if the connection was successful, false otherwise.
+    ///
     bool establish(String ssid, String password);
+
+    /// @brief Establishes a connection to the Wi-Fi network.
+    /// @param ssid The SSID of the Wi-Fi network.
+    /// @param password The password of the Wi-Fi network.
+    /// @return True if the connection was successful, false otherwise.
+    ///
+    bool establish(char* ssid, char* password);
+
+    /// @brief Checks if the device is connected to the Wi-Fi network.
+    /// @return True if the device is connected to the Wi-Fi network, false otherwise.
+    ///
+    bool isConnected();
 } // namespace WiFi

@@ -11,7 +11,7 @@ class EdgeDetection
 {
 private:
     uint8_t *_edgeValue;
-    static EdgeDetection *edgeList[10];
+    static EdgeDetection *edgeList[10]; //* Has to be adjusted to the number of instances of EdgeDetection
     static uint8_t edgeCount;
 
     struct edge_t

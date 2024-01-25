@@ -28,10 +28,11 @@ namespace State
         return;
 
         exception:
-            for(;;) {}
+            for(;;) { delay(1000); }
     }
 
-    // State implementations
+
+    // State implementations (can also be moved to separate files)
     void stateIdle()
     {
 
