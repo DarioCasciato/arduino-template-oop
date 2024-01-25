@@ -17,9 +17,11 @@ namespace Flash
 
 
     /// @brief initializes the flash memory
+    ///
     void init();
 
     /// @brief clears all flash storages
+    ///
     void clear();
 
 } // namespace Flash

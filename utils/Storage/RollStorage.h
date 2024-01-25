@@ -35,15 +35,18 @@ public:
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param dataSize Size of individual data entries
+    ///
     RollStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize);
 
     /// @brief Initialize the storage area.
+    ///
     void init();
 
     /// @brief Write data to the next available address.
     ///
     /// @param data Pointer to the data to be written
     /// @return True if the write was successful, false otherwise
+    ///
     bool write(void* data);
 
     /// @brief Read data from a specific index.
@@ -51,32 +54,38 @@ public:
     /// @param index Index from which the data should be read
     /// @param data Pointer to store the read data
     /// @return True if the read was successful, false otherwise
+    ///
     bool read(uint16_t index, void* data);
 
     /// @brief Read the last written data.
     ///
     /// @param data Pointer to store the read data
     /// @return True if the read was successful, false otherwise
+    ///
     bool readLast(void* data);
 
     /// @brief Clear all data in the storage area.
     ///
     /// @return True if the clear operation was successful, false otherwise
+    ///
     bool clear();
 
     /// @brief Get the number of entries currently stored.
     ///
     /// @return Number of entries
+    ///
     uint16_t getNumEntries() { return header_.numEntries_; }
 
     /// @brief Get the size of the storage area.
     ///
     /// @return Storage size
+    ///
     uint16_t getStorageSize() { return header_.storageSize_; }
 
     /// @brief Get the size of individual data entries.
     ///
     /// @return Data size
+    ///
     uint16_t getDataSize() { return header_.dataSize_; }
 };
 

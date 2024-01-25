@@ -34,9 +34,11 @@ public:
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param magicNumber Magic number to identify the header
+    ///
     IDStorage(uint8_t* startAddr, uint16_t storageSize);
 
     /// @brief Initialize the storage area.
+    ///
     void init();
 
     /// @brief Write function as template.
@@ -44,6 +46,7 @@ public:
     /// @param id ID to which the data should be associated
     /// @param data data to be written
     /// @return True if the write was successful, false otherwise
+    ///
     template <typename T>
     bool write(uint8_t id, T data)
     {
@@ -56,6 +59,7 @@ public:
     /// @param data Pointer to the data to be written
     /// @param size Size of the data to be written
     /// @return True if the write was successful, false otherwise
+    ///
     bool write(uint8_t id, void* data, uint8_t size);
 
     /// @brief Write data associated with a specific ID. (overload)
@@ -63,6 +67,7 @@ public:
     /// @param id ID to which the data should be associated
     /// @param str String to be written
     /// @return True if the write was successful, false otherwise
+    ///
     bool write(uint8_t id, String data);
 
     /// @brief Read function as template.
@@ -70,6 +75,7 @@ public:
     /// @param id ID from which the data should be read
     /// @param destination Pointer to store the read data
     /// @return True if the read was successful, false otherwise
+    ///
     template <typename T>
     bool read(uint8_t id, T* destination)
     {
@@ -81,21 +87,25 @@ public:
     /// @param id ID from which the data should be read
     /// @param destination Pointer to store the read data
     /// @return True if the read was successful, false otherwise
+    ///
     bool read(uint8_t id, void* destination, uint8_t size);
 
     /// @brief Clear all data in the storage area.
     ///
     /// @return True if the clear operation was successful, false otherwise
+    ///
     bool clear();
 
     /// @brief Get the number of entries currently stored.
     ///
     /// @return Number of entries
+    ///
     uint16_t getNumEntries() { return header_.numEntries_; }
 
     /// @brief Get the size of the storage area.
     ///
     /// @return Storage size
+    ///
     uint16_t getStorageSize() { return header_.storageSize_; }
 };
 

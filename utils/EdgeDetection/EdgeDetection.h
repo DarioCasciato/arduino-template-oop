@@ -27,37 +27,45 @@ public:
     /// @brief EdgeDetection constructor
     ///
     /// @param edgeValue Pointer to the variable representing the edge value
+    ///
     EdgeDetection(uint8_t *edgeValue);
 
     /// @brief Update the edge detection for a specific instance
+    ///
     void updateEdge();
 
     /// @brief Update the edge detection for all instances of EdgeDetection
+    ///
     static void updateEdges();
 
     /// @brief Get the previous state value
     ///
     /// @return The previous state value
+    ///
     uint8_t getOldState() { return Edge.old; };
 
     /// @brief Get the current state value
     ///
     /// @return The current state value
+    ///
     uint8_t getActState() { return Edge.act; }
 
     /// @brief Get the edge value
     ///
     /// @return The edge value
+    ///
     uint8_t getEdge() { return Edge.edge; }
 
     /// @brief Get the positive edge value
     ///
     /// @return The positive edge value
+    ///
     uint8_t getEdgePos() { return Edge.edge_pos; }
 
     /// @brief Get the negative edge value
     ///
     /// @return The negative edge value
+    ///
     uint8_t getEdgeNeg() { return Edge.edge_neg; }
 };
 

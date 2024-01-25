@@ -27,9 +27,11 @@ namespace Hardware
     // Example: extern LED statusLed;
 
     /// @brief Initializes hardware
+    ///
     void init();
 
     /// @brief Fetches hardware values
+    ///
     void updateHardware();
 } // namespace Hardware
 

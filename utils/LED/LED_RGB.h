@@ -39,14 +39,17 @@ public:
     /// @param pin_g Pin number for the green component
     /// @param pin_b Pin number for the blue component
     /// @param ActiveLevel Active level configuration (COMMON_ANODE or COMMON_CATHODE)
+    ///
     LED_RGB(uint8_t pin_r, uint8_t pin_g, uint8_t pin_b, ActiveLevel ActiveLevel);
 
     /// @brief Set the color of the RGB LED
     ///
     /// @param colors Colors_RGB object containing the RGB values to set
+    ///
     void set(Colors_RGB colors);
 
     /// @brief Turn off the RGB LED
+    ///
     void off();
 };
 

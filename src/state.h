@@ -16,12 +16,15 @@ namespace State
     };
 
     /// @brief State driver function
+    ///
     void stateDriver();
 
     /// @brief Handler for the Idle state
+    ///
     void stateIdle();
 
     /// @brief Handler for the Error state
+    ///
     void stateError();
 } // namespace State
 
