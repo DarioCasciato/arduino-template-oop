@@ -74,31 +74,6 @@ The directory structure of this template repository is as follows:
 - **`utils/`**: contains useful libraries
 - **`README.md`**: This file provides an overview and instructions for the template repository.
 
-## Removing Example Code
-
-If you prefer to start with a clean slate and remove the example code provided in this template, you can use the "remove-template" branch. This branch has already removed the example code and is ready for you to begin your project without any pre-existing code.
-
-### Instructions:
-
-1. Switch to the "remove-template" branch using the following command:
-
-   ```
-   git checkout example-remove
-   ```
-2. Merge the "remove-template" branch into the "main" branch:
-
-   ```
-   git merge example-remove
-   ```
-
-   **Note:** Before merging, make sure you have committed or stashed any changes you made to the "main" branch to avoid conflicts.
-3. Once the merge is complete, the "main" branch will now contain only the directory structure and the README.md file.
-4. You can now start building your firmware project from this clean template.
-
-### Additional Information:
-
-The "remove-template" branch was created to provide users with a minimalist starting point, eliminating any example code that might not be relevant to your specific project requirements.
-
 ## Contributing
 
 Contributions to improve this template repository are always welcome. If you find any issues or have suggestions for enhancements, please open an issue or submit a pull request.
