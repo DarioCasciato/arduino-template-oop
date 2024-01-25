@@ -5,8 +5,6 @@
 #ifndef _TEMPLATE_PROJECT_CONFIGURATIONS_
 #define _TEMPLATE_PROJECT_CONFIGURATIONS_
 
-#define USE_FLASH false
-
 // Set Global values, etc. here
 // Example: #define BAUD_RATE 115200
 
