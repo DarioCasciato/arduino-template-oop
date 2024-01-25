@@ -10,7 +10,7 @@ namespace Flash
     Layout flashLayout; // Definition of the global instance
 
     // add flash memory definition here
-    // Example: RollStorage storage(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(DataType), MAGIC_NUMBER);
+    // Example: RollStorage storage(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(DataType));
 
 
     // Add initializers here
