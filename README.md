@@ -60,7 +60,7 @@ The directory structure of this template repository is as follows:
     ├───Buzzer
     ├───EdgeDetection
     ├───ESPWifi
-    ├───FlashStorage
+    ├───Storage
     ├───LED
     ├───Logging
     ├───MathUtils

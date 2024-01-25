@@ -11,7 +11,7 @@ class EdgeDetection
 {
 private:
     uint8_t *_edgeValue;
-    static EdgeDetection *edgeList[10];
+    static EdgeDetection *edgeList[10]; //* Has to be adjusted to the number of instances of EdgeDetection
     static uint8_t edgeCount;
 
     struct edge_t
@@ -38,27 +38,27 @@ public:
     /// @brief Get the previous state value
     ///
     /// @return The previous state value
-    uint8_t getOldState();
+    uint8_t getOldState() { return Edge.old; };
 
     /// @brief Get the current state value
     ///
     /// @return The current state value
-    uint8_t getActState();
+    uint8_t getActState() { return Edge.act; }
 
     /// @brief Get the edge value
     ///
     /// @return The edge value
-    uint8_t getEdge();
+    uint8_t getEdge() { return Edge.edge; }
 
     /// @brief Get the positive edge value
     ///
     /// @return The positive edge value
-    uint8_t getEdgePos();
+    uint8_t getEdgePos() { return Edge.edge_pos; }
 
     /// @brief Get the negative edge value
     ///
     /// @return The negative edge value
-    uint8_t getEdgeNeg();
+    uint8_t getEdgeNeg() { return Edge.edge_neg; }
 };
 
 #endif // UTILS_EDGE_DETECTION_

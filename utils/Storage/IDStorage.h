@@ -14,6 +14,7 @@ class IDStorage
 {
 private:
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
+    const uint16_t magicNumber {0xECEC};  ///< Magic number to identify the header
 
     struct Header
     {
@@ -33,7 +34,7 @@ public:
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param magicNumber Magic number to identify the header
-    IDStorage(uint16_t storageSize, uint16_t magicNumber);
+    IDStorage(uint8_t* startAddr, uint16_t storageSize);
 
     /// @brief Initialize the storage area.
     void init();

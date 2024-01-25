@@ -3,14 +3,14 @@
 // =============================================================================
 
 #include <stdint.h>
-#include <Arduino.h>
-#include "../../src/hardware.h"
-#include "../EdgeDetection/EdgeDetection.h"
-#include "../LED/LED.h"
 
 #ifndef UTILS_GPIO_HANDLER_
 #define UTILS_GPIO_HANDLER_
 
+namespace Hardware // Forward declaration
+{
+    enum class Port : uint8_t;
+}
 
 namespace GPIO
 {

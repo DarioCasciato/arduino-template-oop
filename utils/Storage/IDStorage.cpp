@@ -6,19 +6,24 @@
 #include "Arduino.h"
 #include <EEPROM.h>
 
-#include "FlashStorage.h"
+#include "../../src/Flash/FlashStructure.h"
 
-
-IDStorage::IDStorage(uint16_t storageSize, uint16_t magicNumber)
-    : initialized_(false) // Initialize to false
+namespace
 {
-    header_.magic = magicNumber;  // Assign the passed magic number
-    header_.startAddr_ = Flash::startOffsetAddress_;
-    Flash::startOffsetAddress_ += storageSize + sizeof(header_);
+    const uint8_t tagAndLengthSize = 2; ///< Size of the tag and length fields
+} // namespace
+
+
+IDStorage::IDStorage(uint8_t* startAddr, uint16_t storageSize)
+    : initialized_(false)
+{
+    // Similar calculation for start address offset
+    header_.startAddr_ = startAddr - reinterpret_cast<uint8_t*>(&Flash::flashLayout);
     header_.storageSize_ = storageSize + sizeof(header_);
-    header_.numMaxEntries_ = 0;
+    header_.numMaxEntries_ = 0; // As per your original logic
     header_.numEntries_ = 0;
     header_.nextAddr_ = header_.startAddr_ + sizeof(header_);
+    header_.magic = magicNumber;
 }
 
 void IDStorage::init()
@@ -67,7 +72,7 @@ void IDStorage::updateHeader()
 bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 {
     // + 2 for id and length
-    if(header_.nextAddr_ + size + 2 > header_.startAddr_ + header_.storageSize_)
+    if(header_.nextAddr_ + size + tagAndLengthSize > header_.startAddr_ + header_.storageSize_)
     {
         return false; // storage is full
     }
@@ -83,7 +88,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
         if(readId == id)
         {
             // id already exists, overwrite it
-            addr += 2; // skip id and length
+            addr += tagAndLengthSize; // skip id and length
 
             // write to eeprom
             for(uint8_t i = 0; i < EEPROM.read(addr - 1); i++)
@@ -100,7 +105,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
             return true;
         }
 
-        addr += 2 + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
+        addr += tagAndLengthSize + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
     }
 
     // id does not exist, write it
@@ -110,11 +115,11 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
     // write to eeprom
     for(uint8_t i = 0; i < size; i++)
     {
-        EEPROM.write(header_.nextAddr_ + 2 + i, cData[i]);
+        EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, cData[i]);
     }
 
     header_.numEntries_++;
-    header_.nextAddr_ += size + 2;
+    header_.nextAddr_ += tagAndLengthSize + size;
 
     updateHeader();
 
@@ -130,8 +135,7 @@ bool IDStorage::write(uint8_t id, String data)
     // Convert String length to number of bytes.
     uint8_t size = data.length() + 1;  // +1 for the null terminator
 
-    // + 2 for id and length
-    if(header_.nextAddr_ + size + 2 > header_.startAddr_ + header_.storageSize_)
+    if(header_.nextAddr_ + size + tagAndLengthSize > header_.startAddr_ + header_.storageSize_)
     {
         return false; // storage is full
     }
@@ -151,7 +155,7 @@ bool IDStorage::write(uint8_t id, String data)
         if(readId == id)
         {
             // id already exists, overwrite it
-            addr += 2; // skip id and length
+            addr += tagAndLengthSize; // skip id and length
 
             // write to eeprom
             for(uint8_t i = 0; i < (EEPROM.read(addr - 1) - 1); i++)
@@ -168,7 +172,7 @@ bool IDStorage::write(uint8_t id, String data)
             return true;
         }
 
-        addr += 2 + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
+        addr += tagAndLengthSize + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
     }
 
     // id does not exist, write it
@@ -178,11 +182,11 @@ bool IDStorage::write(uint8_t id, String data)
     // write to eeprom
     for(uint8_t i = 0; i < size; i++)
     {
-        EEPROM.write(header_.nextAddr_ + 2 + i, cData[i]);
+        EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, cData[i]);
     }
 
     header_.numEntries_++;
-    header_.nextAddr_ += size + 2;
+    header_.nextAddr_ += size + tagAndLengthSize;
 
     updateHeader();
 
@@ -211,13 +215,13 @@ bool IDStorage::read(uint8_t id, void* data)
             // read from eeprom
             for(uint8_t j = 0; j < size; j++)
             {
-                cData[j] = EEPROM.read(addr + 2 + j);
+                cData[j] = EEPROM.read(addr + tagAndLengthSize + j);
             }
 
             return true;
         }
 
-        addr += EEPROM.read(addr + 1) + 2; // skip id and length
+        addr += EEPROM.read(addr + 1) + tagAndLengthSize; // skip id and length
 
         if(addr >= header_.nextAddr_)
         {

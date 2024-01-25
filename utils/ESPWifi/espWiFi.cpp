@@ -2,29 +2,61 @@
 // Template-Project | Main
 // =============================================================================
 
-#ifdef ESP8266
+#if defined(ESP8266) || defined(ESP32)
 
 #include "espWiFi.h"
+#include "Logging.h"
 
-namespace
+
+bool Wifi::establish(String ssid, String password)
 {
-    inline const char* ssid = "SSID-HERE";
-    inline const char* password = "PASSWORD-HERE";
-}
-
-
-void Wifi::establish()
-{
-    WiFi.hostname("NodeMCU | Template-Project");
+    // Connect to the WiFi network
+    WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
 
-    while (WiFi.status() != WL_CONNECTED)
+    for(uint8_t i = 0; i < 10; i++)
     {
+        if (WiFi.status() == WL_CONNECTED)
+        {
+            Logging::log("Connected to WiFi!");
+            return true;
+        }
+
         delay(1000);
-        Serial.println("Connecting to WiFi...");
+        Logging::log("Connecting to WiFi...");
     }
 
-    Serial.println("Connected to WiFi!");
+    // If the connection failed, log an error
+    Logging::log("Failed to connect to WiFi!");
+    return false;
+}
+
+bool Wifi::establish(char* ssid, char* password)
+{
+    // Connect to the WiFi network
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(ssid, password);
+
+    for(uint8_t i = 0; i < 10; i++)
+    {
+        if (WiFi.status() == WL_CONNECTED)
+        {
+            Logging::log("Connected to WiFi!");
+            return true;
+        }
+
+        delay(1000);
+        Logging::log("Connecting to WiFi...");
+    }
+
+    // If the connection failed, log an error
+    Logging::log("Failed to connect to WiFi!");
+    return false;
+}
+
+bool Wifi::isConnected()
+{
+    return WiFi.status() == WL_CONNECTED;
 }
 
 #endif

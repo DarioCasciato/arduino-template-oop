@@ -32,33 +32,3 @@ void EdgeDetection::updateEdges()
         edgeList[i]->updateEdge();
     }
 }
-
-// Get the old state of the button
-uint8_t EdgeDetection::getOldState()
-{
-    return Edge.old;
-}
-
-// Get the current state of the button
-uint8_t EdgeDetection::getActState()
-{
-    return Edge.act;
-}
-
-// Get the button edge state
-uint8_t EdgeDetection::getEdge()
-{
-    return Edge.edge;
-}
-
-// Get the positive edge of the button
-uint8_t EdgeDetection::getEdgePos()
-{
-    return Edge.edge_pos;
-}
-
-// Get the negative edge of the button
-uint8_t EdgeDetection::getEdgeNeg()
-{
-    return Edge.edge_neg;
-}

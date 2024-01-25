@@ -7,7 +7,7 @@
 #ifndef ARDUINO_OBJECTS_LED_RGB_
 #define ARDUINO_OBJECTS_LED_RGB_
 
-enum activeLevel
+enum ActiveLevel
 {
     COMMON_ANODE,
     COMMON_CATHODE
@@ -30,7 +30,7 @@ private:
     uint8_t _pin_R;
     uint8_t _pin_G;
     uint8_t _pin_B;
-    activeLevel _activeLevel;
+    ActiveLevel _activeLevel;
 
 public:
     /// @brief LED_RGB constructor
@@ -39,7 +39,7 @@ public:
     /// @param pin_g Pin number for the green component
     /// @param pin_b Pin number for the blue component
     /// @param ActiveLevel Active level configuration (COMMON_ANODE or COMMON_CATHODE)
-    LED_RGB(uint8_t pin_r, uint8_t pin_g, uint8_t pin_b, activeLevel ActiveLevel);
+    LED_RGB(uint8_t pin_r, uint8_t pin_g, uint8_t pin_b, ActiveLevel ActiveLevel);
 
     /// @brief Set the color of the RGB LED
     ///

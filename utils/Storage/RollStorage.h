@@ -1,32 +1,20 @@
 // =============================================================================
-// Utils | FlashStorage
+// Utils | RollStorage
 // =============================================================================
 
-#ifndef UTILS_FLASH_STORAGE_
-#define UTILS_FLASH_STORAGE_
+#ifndef UTILS_ROLL_STORAGE_
+#define UTILS_ROLL_STORAGE_
 
 #include <stdint.h>
 
-namespace Flash
-{
-    // Disable the "defined but not used" warning for the startOffsetAddress_ variable
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunused-variable"
 
-    static uint16_t startOffsetAddress_;
-
-    #pragma GCC diagnostic pop
-
-    void init();
-} // namespace Flash
-
-
-/// @class FlashStorage
+/// @class RollStorage
 /// @brief Class for handling storage in flash memory.
-class FlashStorage
+class RollStorage
 {
 private:
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
+    const uint16_t magicNumber {0xA7A7};  ///< Magic number to identify the header
 
     struct Header
     {
@@ -43,11 +31,11 @@ private:
     void updateHeader();
 
 public:
-    /// @brief Constructor for the FlashStorage class.
+    /// @brief Constructor for the RollStorage class.
     ///
     /// @param storageSize Size of the storage area in flash memory
     /// @param dataSize Size of individual data entries
-    FlashStorage(uint16_t storageSize, uint8_t dataSize, uint16_t magicNumber);
+    RollStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize);
 
     /// @brief Initialize the storage area.
     void init();
@@ -57,13 +45,6 @@ public:
     /// @param data Pointer to the data to be written
     /// @return True if the write was successful, false otherwise
     bool write(void* data);
-
-    /// @brief Write data to a specific index.
-    ///
-    /// @param index Index at which the data should be written
-    /// @param data Pointer to the data to be written
-    /// @return True if the write was successful, false otherwise
-    bool write(uint16_t index, void* data);
 
     /// @brief Read data from a specific index.
     ///
@@ -100,4 +81,4 @@ public:
 };
 
 
-#endif // UTILS_FLASH_STORAGE_
+#endif // UTILS_ROLL_STORAGE_

@@ -3,6 +3,7 @@
 // =============================================================================
 
 #include "gpioHandler.h"
+#include "../../src/hardware.h"
 
 bool GPIO::getPort(Hardware::Port port)
 {

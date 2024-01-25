@@ -5,30 +5,35 @@
 #include "Flash.h"
 #include "Logging.h"
 
-#define MAGIC_NUMBER 0x1234
-
 namespace Flash
 {
+    Layout flashLayout; // Definition of the global instance
+
     // add flash memory definition here
-    // example: FlashStorage testMemory(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGICNUMBER);
-    FlashStorage storage(sizeof(Flash::Structure::memory1), sizeof(DataType), MAGIC_NUMBER);
+    // Example: RollStorage storage(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(DataType), MAGIC_NUMBER);
 
 
     // Add initializers here
+    namespace
+    {
+
     void initStorage()
     {
-        storage.init();
+        // Example: storage.init();
+    }
+
     }
 
     void clear()
     {
-        storage.clear();
+        // Example: storage.clear();
     }
+
 
     void init()
     {
     #ifdef ESP8266
-        EEPROM.begin(sizeof(Flash::Structure));
+        EEPROM.begin(sizeof(Flash::Layout));
     #else
         EEPROM.begin();
     #endif
