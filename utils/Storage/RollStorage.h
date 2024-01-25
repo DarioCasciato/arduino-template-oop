@@ -14,7 +14,7 @@ class RollStorage
 {
 private:
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
-    const uint16_t magicNumber {0xA7A7};  ///< Magic number to identify the header
+    const uint16_t magicNumber {0xB6A7};  ///< Magic number to identify the header
 
     struct Header
     {

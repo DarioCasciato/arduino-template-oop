@@ -13,7 +13,7 @@
 namespace Flash
 {
     // add flash memory definition here
-    // example: extern RollStorage testMemory;
+    extern RollStorage testMemory;
 
 
     /// @brief initializes the flash memory

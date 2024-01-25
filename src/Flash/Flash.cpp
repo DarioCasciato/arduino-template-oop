@@ -9,24 +9,22 @@ namespace Flash
 {
     Layout flashLayout; // Definition of the global instance
 
-    // add flash memory definition here
-    // Example: RollStorage storage(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(DataType));
 
+    RollStorage testMemory(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(struct DataType));
 
-    // Add initializers here
     namespace
     {
 
     void initStorage()
     {
-        // Example: storage.init();
+        testMemory.init();
     }
 
     }
 
     void clear()
     {
-        // Example: storage.clear();
+        testMemory.clear();
     }
 
 
