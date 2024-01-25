@@ -22,7 +22,6 @@ void setup()
 #ifdef ESP8266
     ESP.wdtEnable(WDTO_1S);
     Serial.begin(115200);
-    Wifi::establish();
 #else
     Serial.begin(9600);
 #endif
