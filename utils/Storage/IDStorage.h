@@ -39,6 +39,17 @@ public:
     /// @brief Initialize the storage area.
     void init();
 
+    /// @brief Write function as template.
+    ///
+    /// @param id ID to which the data should be associated
+    /// @param data data to be written
+    /// @return True if the write was successful, false otherwise
+    template <typename T>
+    bool write(uint8_t id, T data)
+    {
+        return write(id, &data, sizeof(T));
+    }
+
     /// @brief Write data associated with a specific ID.
     ///
     /// @param id ID to which the data should be associated
@@ -54,12 +65,23 @@ public:
     /// @return True if the write was successful, false otherwise
     bool write(uint8_t id, String data);
 
+    /// @brief Read function as template.
+    ///
+    /// @param id ID from which the data should be read
+    /// @param destination Pointer to store the read data
+    /// @return True if the read was successful, false otherwise
+    template <typename T>
+    bool read(uint8_t id, T* destination)
+    {
+        return read(id, destination, sizeof(T));
+    }
+
     /// @brief Read data associated with a specific ID.
     ///
     /// @param id ID from which the data should be read
     /// @param destination Pointer to store the read data
     /// @return True if the read was successful, false otherwise
-    bool read(uint8_t id, void* destination);
+    bool read(uint8_t id, void* destination, uint8_t size);
 
     /// @brief Clear all data in the storage area.
     ///
