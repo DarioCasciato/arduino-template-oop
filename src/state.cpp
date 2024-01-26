@@ -37,19 +37,23 @@ namespace State
     // State implementations (can also be moved to separate files)
     void stateIdle()
     {
-        /// RollStorage Test script
-        //Flash::DataType data = {0x80, 0x7777, 0x12345678};
-        // Flash::DataType dataWrite2 = {0x81, 0x8888, 0x87654321};
-        uint32_t writeData = 0x12345678;
+        /// RollStorage Test script with uint16_t data type
+        uint16_t writeData = 0;
 
-        Flash::testMemory.write(&writeData);
-        Logging::log("write data: %x\n", writeData);
+        for (uint16_t i = 0; i < 10; i++)
+        {
+            writeData = i;
+            Flash::testMemory.write(&writeData);
+            Logging::log("writeData: %d", writeData);
+        }
 
-        uint32_t readData = 0;
+        uint16_t readData = 0;
 
-        Flash::testMemory.readLast(&readData);
-
-        Logging::log("read data: %x\n", readData);
+        for (uint16_t i = 0; i < 10; i++)
+        {
+            Flash::testMemory.read(i, &readData);
+            Logging::log("readData: %d", readData);
+        }
 
         state = States::st_error;
     }
