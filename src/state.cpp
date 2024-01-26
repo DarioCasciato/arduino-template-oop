@@ -38,17 +38,18 @@ namespace State
     void stateIdle()
     {
         /// RollStorage Test script
-        Flash::DataType data = {0x80, 0x7777, 0x12345678};
+        //Flash::DataType data = {0x80, 0x7777, 0x12345678};
         // Flash::DataType dataWrite2 = {0x81, 0x8888, 0x87654321};
+        uint32_t writeData = 0x12345678;
 
-        Flash::testMemory.write(&data);
-        Logging::log("written data: %x, %x, %x\n", data.data1, data.data2, data.data3);
+        Flash::testMemory.write(&writeData);
+        Logging::log("write data: %x\n", writeData);
 
-        Flash::DataType data2 = { 0 };
+        uint32_t readData = 0;
 
-        Flash::testMemory.readLast(&data2);
+        Flash::testMemory.readLast(&readData);
 
-        Logging::log("read data: %x, %x, %x\n", data2.data1, data2.data2, data2.data3);
+        Logging::log("read data: %x\n", readData);
 
         state = States::st_error;
     }

@@ -10,7 +10,7 @@ namespace Flash
     Layout flashLayout; // Definition of the global instance
 
 
-    RollStorage testMemory(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(struct DataType));
+    RollStorage testMemory(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(uint32_t));
 
     namespace
     {
