@@ -11,7 +11,7 @@ namespace Flash
 {
     struct Layout
     {
-        uint8_t memory1[0x40]; // 64 bytes
+        uint8_t memory1[0x16]; // 22 bytes
     };
 
     extern Layout flashLayout; // Declaration of the global instance

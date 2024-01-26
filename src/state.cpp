@@ -40,19 +40,19 @@ namespace State
         /// RollStorage Test script with uint16_t data type
         uint16_t writeData = 0;
 
-        for (uint16_t i = 0; i < 10; i++)
+        for (uint16_t i = 0; i < 15; i++)
         {
-            writeData = i;
+            writeData = i * 15;
             Flash::testMemory.write(&writeData);
             Logging::log("writeData: %d", writeData);
         }
 
         uint16_t readData = 0;
 
-        for (uint16_t i = 0; i < 10; i++)
+        for (uint16_t i = 0; i < 15; i++)
         {
             Flash::testMemory.read(i, &readData);
-            Logging::log("readData: %d", readData);
+            Logging::log("readData: index: %d, data: %d", i, readData);
         }
 
         state = States::st_error;
