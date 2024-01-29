@@ -76,6 +76,12 @@ public:
     ///
     uint16_t getNumEntries() { return header_.numEntries_; }
 
+    /// @brief Get the maximum number of entries that can be stored.
+    ///
+    /// @return Maximum number of entries
+    ///
+    uint16_t getMaxEntries() { return header_.numMaxEntries_; }
+
     /// @brief Get the size of the storage area.
     ///
     /// @return Storage size
