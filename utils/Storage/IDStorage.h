@@ -21,7 +21,6 @@ private:
         uint16_t magic;  ///< Magic number to identify the header
         uint16_t storageSize_;  ///< Size of the storage area in flash memory
         uint16_t startAddr_;  ///< Starting address for this instance
-        uint16_t numMaxEntries_;  ///< Maximum number of entries that can be stored
         uint16_t numEntries_;  ///< Number of entries currently stored
         uint16_t nextAddr_;  ///< Next available address for writing
     } header_;
