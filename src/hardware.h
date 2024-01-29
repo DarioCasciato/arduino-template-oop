@@ -19,7 +19,7 @@ namespace Hardware
     enum class Port : uint8_t
     {
         // Define your ports here
-        // Example: LED = GPIO::Port::D0,
+        // Example: LED = (uint8_t)GPIO::Port::D0,
     };
 
 
