@@ -11,7 +11,7 @@ namespace State
 {
     enum States : uint8_t
     {
-        st_idle,
+        st_testing,
         st_end
     };
 
@@ -21,7 +21,7 @@ namespace State
 
     /// @brief Handler for the Idle state
     ///
-    void stateIdle();
+    void stateTesting();
 
     /// @brief Handler for the Error state
     ///

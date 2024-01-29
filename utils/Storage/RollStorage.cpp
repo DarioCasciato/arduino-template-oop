@@ -159,7 +159,7 @@ bool RollStorage::clear()
 {
     for (uint16_t i = sizeof(header_); i < header_.storageSize_; i++)
     {
-        EEPROM.write((header_.startAddr_ + sizeof(header_)) + i, 0);
+        EEPROM.write(header_.startAddr_ + i, 0xFF);
     }
 
     header_.numEntries_ = 0;
