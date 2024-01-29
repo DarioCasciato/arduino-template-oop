@@ -71,13 +71,10 @@ void RollStorage::updateHeader()
 
 bool RollStorage::write(void* data)
 {
-    // cast data* to uint8 array
-    uint8_t* byteData = reinterpret_cast<uint8_t*>(data);
-
     // Write byte array to EEPROM
     for (uint16_t i = 0; i < header_.dataSize_; i++)
     {
-        EEPROM.write(header_.nextAddr_ + i, byteData[i]);
+        EEPROM.write(header_.nextAddr_ + i, ((uint8_t*)data)[i]);
     }
 
     header_.nextAddr_ += header_.dataSize_;
@@ -119,12 +116,12 @@ bool RollStorage::read(uint16_t index, void* data)
         readAddr += header_.storageSize_- sizeof(header_);
     }
 
-    uint8_t byteData[header_.dataSize_];
+    // Read data from EEPROM & copy to data*
     for (uint16_t i = 0; i < header_.dataSize_; i++)
     {
-        byteData[i] = EEPROM.read(readAddr + i);
+        ((uint8_t*)data)[i] = EEPROM.read(readAddr + i);
     }
-    memcpy(data, byteData, header_.dataSize_);
+
     return true;
 }
 
@@ -148,12 +145,12 @@ bool RollStorage::readLast(void* data)
         readAddr = header_.nextAddr_ - header_.dataSize_;
     }
 
-    uint8_t byteData[header_.dataSize_];
+    // Read data from EEPROM & copy to data*
     for (uint16_t i = 0; i < header_.dataSize_; i++)
     {
-        byteData[i] = EEPROM.read(readAddr + i);
+        ((uint8_t*)data)[i] = EEPROM.read(readAddr + i);
     }
-    memcpy(data, byteData, header_.dataSize_);
+
     return true;
 }
 
