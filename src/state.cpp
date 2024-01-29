@@ -67,20 +67,22 @@ namespace State
 
 bool testInitialization(RollStorage& storage)
 {
+    Logging::log("\n----------- Initialization Test -----------");
     if (storage.getNumEntries() == 0)
     {
-        Logging::log("Initialization Test Passed: numEntries is 0 as expected.\n");
+        Logging::log("PASSED: numEntries is 0 as expected.");
         return true;
     }
     else
     {
-        Logging::log("Initialization Test Failed: numEntries is not 0.\n");
+        Logging::log("FAILED: numEntries is not 0.");
         return false;
     }
 }
 
 bool testWriteAndRead(RollStorage& storage)
 {
+    Logging::log("\n----------- Write and Read Test -----------");
     uint8_t testData[4] = {1, 2, 3, 4};
     storage.write(testData);
 
@@ -93,22 +95,23 @@ bool testWriteAndRead(RollStorage& storage)
         {
             if (readData[i] != testData[i])
             {
-                Logging::log("Write and Read Test Failed: Data read does not match data written.\n");
+                Logging::log("FAILED: Data read does not match data written.");
                 return false;
             }
         }
-        Logging::log("Write and Read Test Passed: Data read matches data written.\n");
+        Logging::log("PASSED: Data read matches data written.");
         return true;
     }
     else
     {
-        Logging::log("Write and Read Test Failed: Read operation was not successful.\n");
+        Logging::log("FAILED: Read operation was not successful.");
         return false;
     }
 }
 
 bool testWrapAroundWrite(RollStorage& storage)
 {
+    Logging::log("\n----------- Wrap-Around Write Test -----------");
     for (uint8_t i = 0; i < storage.getMaxEntries(); i++)
     {
         uint8_t data[4] = {i, i, i, i};
@@ -125,16 +128,17 @@ bool testWrapAroundWrite(RollStorage& storage)
     {
         if (readData[i] != extraData[i])
         {
-            Logging::log("Wrap-Around Write Test Failed: Last entry is not as expected after wrap-around.\n");
+            Logging::log("FAILED: Last entry is not as expected after wrap-around.");
             return false;
         }
     }
-    Logging::log("Wrap-Around Write Test Passed: Last entry is as expected after wrap-around.\n");
+    Logging::log("PASSED: Last entry is as expected after wrap-around.");
     return true;
 }
 
 bool testClear(RollStorage& storage)
 {
+    Logging::log("\n----------- Clear Test -----------");
     uint8_t testData[4] = {1, 2, 3, 4};
     storage.write(testData);
     storage.clear();
@@ -145,18 +149,18 @@ bool testClear(RollStorage& storage)
         bool success = storage.read(0, readData);
         if (!success)
         {
-            Logging::log("Clear Test Passed: numEntries is 0, and read operation failed as expected.\n");
+            Logging::log("PASSED: numEntries is 0, and read operation failed as expected.");
             return true;
         }
         else
         {
-            Logging::log("Clear Test Failed: Read operation succeeded after clear.\n");
+            Logging::log("FAILED: Read operation succeeded after clear.");
             return false;
         }
     }
     else
     {
-        Logging::log("Clear Test Failed: numEntries is not 0 after clear.\n");
+        Logging::log("FAILED: numEntries is not 0 after clear.");
         return false;
     }
 }
@@ -164,35 +168,36 @@ bool testClear(RollStorage& storage)
 bool runAllTests(RollStorage& storage)
 {
     Logging::log("Starting RollStorage Tests...\n");
+    storage.clear();
 
     if(!testInitialization(storage))
     {
-        Logging::log("Initialization Test Failed.\n");
+        Logging::log("\n\nFAILED: Initialization Test Failed.\n");
         return false;
     }
     storage.clear();
 
     if(!testWriteAndRead(storage))
     {
-        Logging::log("Write and Read Test Failed.\n");
+        Logging::log("\n\nFAILED: Write and Read Test Failed.\n");
         return false;
     }
     storage.clear();
 
     if(!testWrapAroundWrite(storage))
     {
-        Logging::log("Wrap-Around Write Test Failed.\n");
+        Logging::log("\n\nFAILED: Wrap-Around Write Test Failed.\n");
         return false;
     }
     storage.clear();
 
     if(!testClear(storage))
     {
-        Logging::log("Clear Test Failed.\n");
+        Logging::log("\n\nFAILED: Clear Test Failed.\n");
         return false;
     }
 
 
-    Logging::log("All RollStorage Tests Passed.\n");
+    Logging::log("\n\nAll RollStorage Tests Passed!!!");
     return true;
 }
