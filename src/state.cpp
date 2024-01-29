@@ -20,7 +20,7 @@ namespace State
         switch (State::state)
         {
         case State::st_idle: stateIdle(); break;
-        case State::st_error: stateError(); break;
+        case State::st_end: stateEnd(); break;
 
         default:    // catch invalid state (implement safety backup)
         goto exception;
@@ -43,22 +43,35 @@ namespace State
         for (uint16_t i = 0; i < 15; i++)
         {
             writeData = i * 15;
-            Flash::testMemory.write(&writeData);
-            Logging::log("writeData: %d", writeData);
+            if(!Flash::testMemory.write(&writeData))
+            {
+                Logging::log("Error writing data");
+            }
+            else
+            {
+                Logging::log("writeData: %d", writeData);
+            }
         }
+        Logging::log("\n");
 
         uint16_t readData = 0;
 
         for (uint16_t i = 0; i < 15; i++)
         {
-            Flash::testMemory.read(i, &readData);
-            Logging::log("readData: index: %d, data: %d", i, readData);
+            if(!Flash::testMemory.read(i, &readData))
+            {
+                Logging::log("Error reading data");
+            }
+            else
+            {
+                Logging::log("readData: index: %d, data: %d", i, readData);
+            }
         }
 
-        state = States::st_error;
+        state = States::st_end;
     }
 
-    void stateError()
+    void stateEnd()
     {
         delay(1000);
     }

@@ -111,7 +111,7 @@ bool RollStorage::read(uint16_t index, void* data)
     uint16_t readAddr = header_.nextAddr_ - ((index + 1) * header_.dataSize_);
 
     // Wrap around if necessary
-    if (readAddr < header_.startAddr_ + sizeof(header_))
+    if (readAddr <= header_.startAddr_ + sizeof(header_))
     {
         readAddr += header_.storageSize_- sizeof(header_);
     }
