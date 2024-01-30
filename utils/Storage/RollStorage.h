@@ -14,7 +14,7 @@ class RollStorage
 {
 private:
     bool initialized_;  ///< Flag to indicate if the storage area has been initialized
-    const uint16_t magicNumber {0xA7A7};  ///< Magic number to identify the header
+    const uint16_t magicNumber {0xB6A7};  ///< Magic number to identify the header
 
     struct Header
     {
@@ -25,6 +25,7 @@ private:
         uint16_t numMaxEntries_;  ///< Maximum number of entries that can be stored
         uint16_t numEntries_;  ///< Number of entries currently stored
         uint16_t nextAddr_;  ///< Next available address for writing
+        uint8_t padding_; ///< Padding to ensure the header is a multiple of 4 bytes
     } header_;
 
     /// @brief Update the header in flash memory.
@@ -75,6 +76,12 @@ public:
     /// @return Number of entries
     ///
     uint16_t getNumEntries() { return header_.numEntries_; }
+
+    /// @brief Get the maximum number of entries that can be stored.
+    ///
+    /// @return Maximum number of entries
+    ///
+    uint16_t getMaxEntries() { return header_.numMaxEntries_; }
 
     /// @brief Get the size of the storage area.
     ///

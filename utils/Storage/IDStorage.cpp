@@ -20,7 +20,6 @@ IDStorage::IDStorage(uint8_t* startAddr, uint16_t storageSize)
     // Similar calculation for start address offset
     header_.startAddr_ = startAddr - reinterpret_cast<uint8_t*>(&Flash::flashLayout);
     header_.storageSize_ = storageSize + sizeof(header_);
-    header_.numMaxEntries_ = 0; // As per your original logic
     header_.numEntries_ = 0;
     header_.nextAddr_ = header_.startAddr_ + sizeof(header_);
     header_.magic = magicNumber;
