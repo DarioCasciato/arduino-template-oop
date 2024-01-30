@@ -92,7 +92,7 @@ bool testWriteAndRead(RollStorage& storage)
 
     if (success)
     {
-        for (uint8_t i = 0; i < 4; i++)
+        for (uint8_t i = 0; i < 10; i++)
         {
             if (readData[i] != testData[i])
             {
@@ -124,9 +124,9 @@ bool testWrapAroundWrite(RollStorage& storage)
     storage.write(extraData);
 
     uint8_t readData[4] = {};
-    storage.readLast(readData);
+    storage.read(0, readData);
 
-    for (uint8_t i = 0; i < 4; i++)
+    for (uint8_t i = 0; i < 10; i++)
     {
         if (readData[i] != extraData[i])
         {

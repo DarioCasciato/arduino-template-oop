@@ -25,6 +25,7 @@ private:
         uint16_t numMaxEntries_;  ///< Maximum number of entries that can be stored
         uint16_t numEntries_;  ///< Number of entries currently stored
         uint16_t nextAddr_;  ///< Next available address for writing
+        uint8_t padding_; ///< Padding to ensure the header is a multiple of 4 bytes
     } header_;
 
     /// @brief Update the header in flash memory.

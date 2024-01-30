@@ -6,16 +6,15 @@
 #include "../../src/Flash/FlashStructure.h"
 #include <Arduino.h>
 #include <EEPROM.h>
-#include "Logging.h"
 
 RollStorage::RollStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize)
     : initialized_(false)
 {
     // Calculate the offset of the start address from the base of the Flash::Layout
     header_.startAddr_ = startAddr - reinterpret_cast<uint8_t*>(&Flash::flashLayout);
-    header_.storageSize_ = storageSize;
-    header_.dataSize_ = dataSize;
     header_.numMaxEntries_ = (storageSize - sizeof(header_)) / dataSize;
+    header_.dataSize_ = dataSize;
+    header_.storageSize_ = sizeof(header_) + (header_.numMaxEntries_ * header_.dataSize_);
     header_.numEntries_ = 0;
     header_.nextAddr_ = header_.startAddr_ + sizeof(header_);
     header_.magic = magicNumber;
@@ -78,8 +77,6 @@ bool RollStorage::write(void* data)
         EEPROM.write(header_.nextAddr_ + i, ((uint8_t*)data)[i]);
     }
 
-    Logging::log("DEBUG: writeAddress: %x", header_.nextAddr_);
-
     header_.nextAddr_ += header_.dataSize_;
 
     // Wrap around if we reach the end of the storage
@@ -93,6 +90,7 @@ bool RollStorage::write(void* data)
     {
         header_.numEntries_++;
     }
+
 
     updateHeader();
 
@@ -114,15 +112,14 @@ bool RollStorage::read(uint16_t index, void* data)
     uint16_t readAddr = header_.nextAddr_ - ((index + 1) * header_.dataSize_);
 
     // Wrap around if necessary
-    if (readAddr <= header_.startAddr_ + sizeof(header_))
+    if (readAddr < header_.startAddr_ + sizeof(header_))
     {
-        readAddr += header_.storageSize_- sizeof(header_);
+        readAddr += (header_.storageSize_ - sizeof(header_));
     }
 
-    Logging::log("DEBUG: readAddr: %x", readAddr);
 
     // Read data from EEPROM & copy to data*
-    for (uint16_t i = 0; i < header_.dataSize_; i++)
+    for(uint16_t i = 0; i < header_.dataSize_; i++)
     {
         ((uint8_t*)data)[i] = EEPROM.read(readAddr + i);
     }
@@ -138,26 +135,21 @@ bool RollStorage::readLast(void* data)
         return false; // No entries to read
     }
 
-    uint16_t readAddr;
+    uint16_t readAddr = 0;
     if (header_.nextAddr_ == header_.startAddr_ + sizeof(header_))
     {
-        // Read Entry at the very end of the storage. if next addr is at the start of the storage (i.e. we have wrapped around)
         readAddr = header_.startAddr_ + header_.storageSize_ - header_.dataSize_;
     }
     else
     {
-        // Read the entry just before nextAddr_
         readAddr = header_.nextAddr_ - header_.dataSize_;
     }
-
-    Logging::log("DEBUG: readAddr: %x", readAddr);
 
     // Read data from EEPROM & copy to data*
     for (uint16_t i = 0; i < header_.dataSize_; i++)
     {
         ((uint8_t*)data)[i] = EEPROM.read(readAddr + i);
     }
-
     return true;
 }
 
