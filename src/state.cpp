@@ -75,6 +75,7 @@ bool testInitialization(RollStorage& storage)
     }
     else
     {
+        Logging::log("numEntries: %d", storage.getNumEntries());
         Logging::log("FAILED: numEntries is not 0.");
         return false;
     }
@@ -95,6 +96,7 @@ bool testWriteAndRead(RollStorage& storage)
         {
             if (readData[i] != testData[i])
             {
+                Logging::log("Write Data: %x, Read Data: %x", testData, readData);
                 Logging::log("FAILED: Data read does not match data written.");
                 return false;
             }
@@ -128,6 +130,10 @@ bool testWrapAroundWrite(RollStorage& storage)
     {
         if (readData[i] != extraData[i])
         {
+            uint32_t writeData = *(uint32_t*)extraData;
+            uint32_t readData = *(uint32_t*)readData;
+
+            Logging::log("Write Data: %x, Read Data: %x", writeData, readData);
             Logging::log("FAILED: Last entry is not as expected after wrap-around.");
             return false;
         }
@@ -160,6 +166,7 @@ bool testClear(RollStorage& storage)
     }
     else
     {
+        Logging::log("numEntries: %d", storage.getNumEntries());
         Logging::log("FAILED: numEntries is not 0 after clear.");
         return false;
     }
