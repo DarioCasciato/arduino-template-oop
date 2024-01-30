@@ -11,18 +11,13 @@ namespace Flash
 {
     struct Layout
     {
-        uint8_t memory1[0x16]; // 22 bytes
+        // Define your memory areas here
+        // Example: uint8_t memory1[0x200]; // 512 bytes
+        // Add more as needed
+
     };
 
     extern Layout flashLayout; // Declaration of the global instance
-
-
-    struct DataType
-    {
-        uint8_t data1;
-        uint16_t data2;
-        uint32_t data3;
-    };
 } // namespace Flash
 
 
