@@ -11,8 +11,8 @@ namespace State
 {
     enum States : uint8_t
     {
-        st_testing,
-        st_end
+        st_idle,
+        st_error
     };
 
     /// @brief State driver function
@@ -21,11 +21,11 @@ namespace State
 
     /// @brief Handler for the Idle state
     ///
-    void stateTesting();
+    void stateIdle();
 
     /// @brief Handler for the Error state
     ///
-    void stateEnd();
+    void stateError();
 } // namespace State
 
 #endif // _TEMPLATE_PROJECT_STATE_
