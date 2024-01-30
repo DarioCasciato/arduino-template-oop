@@ -6,6 +6,7 @@
 #include "../../src/Flash/FlashStructure.h"
 #include <Arduino.h>
 #include <EEPROM.h>
+#include "Logging.h"
 
 RollStorage::RollStorage(uint8_t* startAddr, uint16_t storageSize, uint8_t dataSize)
     : initialized_(false)
@@ -77,6 +78,8 @@ bool RollStorage::write(void* data)
         EEPROM.write(header_.nextAddr_ + i, ((uint8_t*)data)[i]);
     }
 
+    Logging::log("DEBUG: writeAddress: %x", header_.nextAddr_);
+
     header_.nextAddr_ += header_.dataSize_;
 
     // Wrap around if we reach the end of the storage
@@ -116,6 +119,8 @@ bool RollStorage::read(uint16_t index, void* data)
         readAddr += header_.storageSize_- sizeof(header_);
     }
 
+    Logging::log("DEBUG: readAddr: %x", readAddr);
+
     // Read data from EEPROM & copy to data*
     for (uint16_t i = 0; i < header_.dataSize_; i++)
     {
@@ -144,6 +149,8 @@ bool RollStorage::readLast(void* data)
         // Read the entry just before nextAddr_
         readAddr = header_.nextAddr_ - header_.dataSize_;
     }
+
+    Logging::log("DEBUG: readAddr: %x", readAddr);
 
     // Read data from EEPROM & copy to data*
     for (uint16_t i = 0; i < header_.dataSize_; i++)
