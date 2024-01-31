@@ -40,7 +40,10 @@ The directory structure of this template repository is as follows:
 ```
 │
 ├───lib
-│       README
+│   │   README
+│   │
+│   └───downloaded
+│           README
 │
 ├───src
 │   │   configurations.h
@@ -58,18 +61,24 @@ The directory structure of this template repository is as follows:
 └───utils
     ├───Arduino
     ├───Buzzer
+    ├───Connectivity
+    │   ├───APIHandler
+    │   └───ESPWiFi
     ├───EdgeDetection
-    ├───ESPWifi
-    ├───Storage
     ├───LED
     ├───Logging
-    ├───MathUtils
     ├───Potentiometer
+    ├───Screen
+    │   ├───ePaper
+    │   └───OLED_u8g2
     ├───Security
-    └───Timer
+    ├───Storage
+    ├───Timer
+    └───utilities
 
 ```
 
+- **`lib/`**: This directory contains extern libraries (downloaded). You can add additional libraries as needed.
 - **`src/`**: This directory contains the main firmware code. You can create additional source files as needed, such as configuration files (`configurations.h`) or modules (`hardware.cpp`, `hardware.h`, etc.).
 - **`utils/`**: contains useful libraries
 - **`README.md`**: This file provides an overview and instructions for the template repository.

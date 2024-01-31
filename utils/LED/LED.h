@@ -9,8 +9,8 @@
 
 enum ActiveLevel
 {
-    LOW_ACTIVE,
-    HIGH_ACTIVE
+    ALOW,
+    AHIGH
 };
 enum level
 {
