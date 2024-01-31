@@ -9,7 +9,7 @@
 namespace Hardware
 {
     // Create the instances of all hardware drivers here
-    // Example: LED statusLed((uint8_t)GPIO::Port::D0, ActiveLevel::HIGH)
+    // Example: LED statusLed((uint8_t)Port::LED, ActiveLevel::AHIGH)
 
 
     void init() // Initialize hardware, function is called once on startup

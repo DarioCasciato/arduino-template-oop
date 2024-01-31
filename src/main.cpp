@@ -9,9 +9,6 @@
 #include "state.h"
 #include "Flash/Flash.h"
 
-#ifdef ESP8266
-#include "espWiFi.h"
-#endif
 
 void refreshData();
 
@@ -19,7 +16,7 @@ void refreshData();
 
 void setup()
 {
-#ifdef ESP8266
+#if defined(ESP8266) || defined(ESP32)
     ESP.wdtEnable(WDTO_1S);
     Serial.begin(115200);
 #else

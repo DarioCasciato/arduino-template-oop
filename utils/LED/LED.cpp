@@ -43,7 +43,7 @@ void LED::toggle()
 // function to turn on the LED
 void LED::on()
 {
-    if (_activeLevel == LOW_ACTIVE)
+    if (_activeLevel == ALOW)
         digitalWrite(_pin, LOW);
     else
         digitalWrite(_pin, HIGH);
@@ -52,7 +52,7 @@ void LED::on()
 // function to turn off the LED
 void LED::off()
 {
-    if (_activeLevel == LOW_ACTIVE)
+    if (_activeLevel == AHIGH)
         digitalWrite(_pin, HIGH);
     else
         digitalWrite(_pin, LOW);
