@@ -2,8 +2,12 @@
 // Template-Project | ESP-WiFi
 // =============================================================================
 
+#ifndef UTILS_CONNECTIVITY_ESPWIFI_
+#define UTILS_CONNECTIVITY_ESPWIFI_
+
 #include <Arduino.h>
 
+#if defined(ESP8266) || defined(ESP32)
 #ifdef ESP8266
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
@@ -14,7 +18,7 @@
 
 namespace Wifi
 {
-    /// @brief Establishes a connection to the Wi-Fi network.
+    /// @brief Establishes a connection to the Wi-Fi network with the credentials specified in the espWiFi.cpp.
     /// @return True if the connection was successful, false otherwise.
     ///
     bool establish();
@@ -42,3 +46,7 @@ namespace Wifi
     ///
     bool isConnected();
 } // namespace WiFi
+
+#endif // defined(ESP8266) || defined(ESP32)
+
+#endif // UTILS_CONNECTIVITY_ESPWIFI_

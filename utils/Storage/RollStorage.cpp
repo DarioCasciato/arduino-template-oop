@@ -64,7 +64,7 @@ void RollStorage::updateHeader()
         EEPROM.write(header_.startAddr_ + i, byteData[i]);
     }
 
-    #ifdef ESP8266
+    #if defined(ESP8266) || defined(ESP32)
     EEPROM.commit();
     #endif
 }
@@ -94,7 +94,7 @@ bool RollStorage::write(void* data)
 
     updateHeader();
 
-    #ifdef ESP8266
+    #if defined(ESP8266) || defined(ESP32)
     EEPROM.commit();
     #endif
     return true;
@@ -166,7 +166,7 @@ bool RollStorage::clear()
 
     updateHeader();
 
-    #ifdef ESP8266
+    #if defined(ESP8266) || defined(ESP32)
     EEPROM.commit();
     #endif
 
