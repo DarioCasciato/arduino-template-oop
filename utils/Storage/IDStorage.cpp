@@ -7,7 +7,7 @@
 #include <EEPROM.h>
 
 #include "../../src/Flash/FlashStructure.h"
-
+#include "Logging.h"
 namespace
 {
     const uint8_t tagAndLengthSize = 2; ///< Size of the tag and length fields
@@ -71,6 +71,7 @@ void IDStorage::updateHeader()
 bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 {
     uint16_t addr = findID(id);
+    Logging::log("write addr in write function: %d", addr);
     TLV newTlv = {id, size, (uint8_t*)data};
 
     if(addr != 0)
@@ -187,6 +188,10 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
         header_.nextAddr_ += tagAndLengthSize + size;
     }
 
+    Logging::log("written to addr: %d", addr);
+    Logging::log("datasize: %d", size);
+
+
     updateHeader();
 
 #if defined(ESP8266) || defined(ESP32)
@@ -209,6 +214,7 @@ bool IDStorage::write(uint8_t id, String data)
 bool IDStorage::read(uint8_t id, void* data, uint8_t size)
 {
     uint16_t addr = findID(id);
+    Logging::log("read addr: %d", addr);
 
     if (addr == 0)
     {
@@ -217,6 +223,7 @@ bool IDStorage::read(uint8_t id, void* data, uint8_t size)
 
     uint8_t* cData = static_cast<uint8_t*>(data);
     uint8_t dataSize = EEPROM.read(addr + 1);
+    Logging::log("dataSize: %d", dataSize);
 
     if (size < dataSize)
     {
