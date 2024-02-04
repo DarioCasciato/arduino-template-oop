@@ -42,6 +42,13 @@ private:
     ///
     uint16_t findID(uint8_t id);
 
+    /// @brief Check if the storage area has enough space for the given size.
+    ///
+    /// @param size Size to check
+    /// @return True if the storage area has enough space, false otherwise
+    ///
+    bool checkSize(uint8_t size);
+
 public:
     /// @brief Constructor for the IDStorage class.
     ///

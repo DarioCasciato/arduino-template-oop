@@ -70,55 +70,122 @@ void IDStorage::updateHeader()
 
 bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 {
-    // + 2 for id and length
-    if(header_.nextAddr_ + size + tagAndLengthSize > header_.startAddr_ + header_.storageSize_)
+    uint16_t addr = findID(id);
+    TLV newTlv = {id, size, (uint8_t*)data};
+
+    if(addr != 0)
     {
-        return false; // storage is full
-    }
+        uint8_t currentSize = EEPROM.read(addr + 1);
 
-    uint8_t* cData = (uint8_t*)data;
-
-    // check if id already exists
-    uint16_t addr = header_.startAddr_ + sizeof(header_);
-
-    for(uint8_t i = 0; i < header_.numEntries_; i++)
-    {
-        uint8_t readId = EEPROM.read(addr);
-        if(readId == id)
+        if(newTlv.length == currentSize) // Option 1: size is the same
         {
-            // id already exists, overwrite it
-            addr += tagAndLengthSize; // skip id and length
-
-            // write to eeprom
-            for(uint8_t i = 0; i < EEPROM.read(addr - 1); i++)
+            // write data to eeprom
+            for(uint8_t i = 0; i < newTlv.length; i++)
             {
-                EEPROM.write(addr + i, cData[i]);
+                EEPROM.write(addr + tagAndLengthSize + i, newTlv.data[i]);
+            }
+        }
+        else if(newTlv.length > currentSize) // Option 2: size is greater than current size
+        {
+            if(!checkSize(newTlv.length - currentSize))
+            {
+                return false; // storage is full
             }
 
-            updateHeader();
+            // Overwrite current tlv with 0xFF
+            for(uint8_t i = 0; i < (currentSize + tagAndLengthSize); i++)
+            {
+                EEPROM.write(addr + i, 0xFF);
+            }
 
-        #if defined(ESP8266) || defined(ESP32)
-            EEPROM.commit();
-        #endif
+            // copy data from end of deleted tlv to nextAddr
+            uint8_t tempData[header_.storageSize_];
+            for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + currentSize + tagAndLengthSize)); i++)
+            {
+                tempData[i] = EEPROM.read(addr + currentSize + tagAndLengthSize + i);
+            }
 
-            return true;
+            // paste copied datablock to startAddr of deleted tlv
+            for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + currentSize + tagAndLengthSize)); i++)
+            {
+                EEPROM.write(addr + i, tempData[i]);
+            }
+
+            // set from nextAddr to (nextAddr - sizeof deleted tlv) to 0xFF
+            for(uint16_t i = 0; i < (header_.nextAddr_ - (currentSize + tagAndLengthSize)); i++)
+            {
+                EEPROM.write(header_.nextAddr_ - i, 0xFF);
+            }
+
+            header_.nextAddr_ -= (currentSize + tagAndLengthSize);
+
+            // write new tlv to eeprom
+            EEPROM.write(header_.nextAddr_, newTlv.tag);
+            EEPROM.write(header_.nextAddr_ + 1, newTlv.length);
+            for(uint8_t i = 0; i < newTlv.length; i++)
+            {
+                EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, newTlv.data[i]);
+            }
+        }
+        else // Option 3: size is less than current size
+        {
+            // Overwrite length and value of current tlv with new length and value
+            EEPROM.write(addr + 1, newTlv.length);
+            for(uint8_t i = 0; i < newTlv.length; i++)
+            {
+                EEPROM.write(addr + tagAndLengthSize + i, newTlv.data[i]);
+            }
+
+            // write from end of new tlv to end of old tlv 0xFF
+            uint8_t sizeDiff = currentSize - newTlv.length;
+            for(uint16_t i = 0; i < sizeDiff; i++)
+            {
+                EEPROM.write(addr + tagAndLengthSize + newTlv.length + i, 0xFF);
+            }
+
+            // copy from end of old tlv to nextAddr, paste to end of new tlv
+            uint8_t tempData[header_.storageSize_];
+            for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + currentSize + tagAndLengthSize)); i++)
+            {
+                tempData[i] = EEPROM.read(addr + currentSize + tagAndLengthSize + i);
+            }
+
+            for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + currentSize + tagAndLengthSize)); i++)
+            {
+                EEPROM.write(addr + tagAndLengthSize + newTlv.length + i, tempData[i]);
+            }
+
+            // write from nextAddr to (nextAddr - sizeDiff) to 0xFF
+            for(uint16_t i = 0; i < sizeDiff; i++)
+            {
+                EEPROM.write(header_.nextAddr_ - i, 0xFF);
+            }
+
+            header_.nextAddr_ -= sizeDiff;
+        }
+    }
+    else // Option 4: id does not exist
+    {
+        if(!checkSize(size))
+        {
+            return false; // storage is full
         }
 
-        addr += tagAndLengthSize + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
+        // write tag and length to eeprom
+        EEPROM.write(header_.nextAddr_, id);
+        EEPROM.write(header_.nextAddr_ + 1, size);
+
+        // write data to eeprom
+        for(uint8_t i = 0; i < size; i++)
+        {
+            EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, newTlv.data[i]);
+        }
+
+        header_.numEntries_++;
+
+        // finish writing, update header data
+        header_.nextAddr_ += tagAndLengthSize + size;
     }
-
-    // id does not exist, write it
-    EEPROM.write(header_.nextAddr_, id);
-    EEPROM.write(header_.nextAddr_ + 1, size);
-
-    // write to eeprom
-    for(uint8_t i = 0; i < size; i++)
-    {
-        EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, cData[i]);
-    }
-
-    header_.numEntries_++;
-    header_.nextAddr_ += tagAndLengthSize + size;
 
     updateHeader();
 
@@ -131,71 +198,13 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 
 bool IDStorage::write(uint8_t id, String data)
 {
-    // Convert String length to number of bytes.
-    uint8_t size = data.length() + 1;  // +1 for the null terminator
-
-    if(header_.nextAddr_ + size + tagAndLengthSize > header_.startAddr_ + header_.storageSize_)
+    if(!write(id, (void*)data.c_str(), data.length() + 1))
     {
-        return false; // storage is full
+        return false;
     }
-
-    // Convert the String to a char array for EEPROM write
-    char charBuf[size];
-    data.toCharArray(charBuf, size);
-
-    uint8_t* cData = (uint8_t*) charBuf;
-
-    // check if id already exists
-    uint16_t addr = header_.startAddr_ + sizeof(header_);
-
-    for(uint8_t i = 0; i < header_.numEntries_; i++)
-    {
-        uint8_t readId = EEPROM.read(addr);
-        if(readId == id)
-        {
-            // id already exists, overwrite it
-            addr += tagAndLengthSize; // skip id and length
-
-            // write to eeprom
-            for(uint8_t i = 0; i < (EEPROM.read(addr - 1) - 1); i++)
-            {
-                EEPROM.write(addr + i, cData[i]);
-            }
-
-            updateHeader();
-
-        #if defined(ESP8266) || defined(ESP32)
-            EEPROM.commit();
-        #endif
-
-            return true;
-        }
-
-        addr += tagAndLengthSize + EEPROM.read(addr + 1); // move to next entry (id + size + data length)
-    }
-
-    // id does not exist, write it
-    EEPROM.write(header_.nextAddr_, id);
-    EEPROM.write(header_.nextAddr_ + 1, size);
-
-    // write to eeprom
-    for(uint8_t i = 0; i < size; i++)
-    {
-        EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, cData[i]);
-    }
-
-    header_.numEntries_++;
-    header_.nextAddr_ += size + tagAndLengthSize;
-
-    updateHeader();
-
-#if defined(ESP8266) || defined(ESP32)
-    EEPROM.commit();
-#endif
 
     return true;
 }
-
 
 bool IDStorage::read(uint8_t id, void* data, uint8_t size)
 {
@@ -259,4 +268,14 @@ uint16_t IDStorage::findID(uint8_t id)
     }
 
     return 0; // ID not found
+}
+
+bool IDStorage::checkSize(uint8_t size)
+{
+    if((header_.nextAddr_ + size + tagAndLengthSize) > (header_.startAddr_ + header_.storageSize_))
+    {
+        return false; // storage is full
+    }
+
+    return true;
 }
