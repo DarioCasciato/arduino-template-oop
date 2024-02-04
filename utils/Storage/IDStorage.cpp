@@ -199,41 +199,28 @@ bool IDStorage::write(uint8_t id, String data)
 
 bool IDStorage::read(uint8_t id, void* data, uint8_t size)
 {
-    uint16_t addr = header_.startAddr_ + sizeof(header_);
+    uint16_t addr = findID(id);
 
-    uint8_t* cData = (uint8_t*)data;
-
-    for(uint8_t i = 0; i < header_.numEntries_; i++)
+    if (addr == 0)
     {
-        uint8_t readId = EEPROM.read(addr);
-        if(readId == id)
-        {
-            // id found, read size
-            uint8_t dataSize = EEPROM.read(addr + 1);
-
-            if(size < dataSize)
-            {
-                return false; // data buffer too small
-            }
-
-            // read from eeprom
-            for(uint8_t j = 0; j < dataSize; j++)
-            {
-                cData[j] = EEPROM.read(addr + tagAndLengthSize + j);
-            }
-
-            return true;
-        }
-
-        addr += EEPROM.read(addr + 1) + tagAndLengthSize; // skip id and length
-
-        if(addr >= header_.nextAddr_)
-        {
-            return false; // id not found
-        }
+        return false; // ID not found
     }
 
-    return false; // id not found
+    uint8_t* cData = static_cast<uint8_t*>(data);
+    uint8_t dataSize = EEPROM.read(addr + 1);
+
+    if (size < dataSize)
+    {
+        return false; // data buffer too small
+    }
+
+    // read from EEPROM
+    for (uint8_t i = 0; i < dataSize; i++)
+    {
+        cData[i] = EEPROM.read(addr + tagAndLengthSize + i);
+    }
+
+    return true;
 }
 
 bool IDStorage::clear()
@@ -253,4 +240,23 @@ bool IDStorage::clear()
 #endif
 
     return true;
+}
+
+
+uint16_t IDStorage::findID(uint8_t id)
+{
+    uint16_t addr = header_.startAddr_ + sizeof(header_);
+
+    for(uint8_t i = 0; i < header_.numEntries_; i++)
+    {
+        uint8_t readId = EEPROM.read(addr);
+        if(readId == id)
+        {
+            return addr;
+        }
+
+        addr += tagAndLengthSize + EEPROM.read(addr + 1); // move to next entry
+    }
+
+    return 0; // ID not found
 }

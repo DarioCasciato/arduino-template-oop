@@ -25,8 +25,22 @@ private:
         uint16_t nextAddr_;  ///< Next available address for writing
     } header_;
 
+    struct TLV
+    {
+        uint8_t tag;  ///< Tag for the data
+        uint8_t length;  ///< Length of the data
+        uint8_t* data;  ///< Pointer to the data
+    };
+
+
     /// @brief Update the header in flash memory.
     void updateHeader();
+
+    /// @brief Find an ID in the storage area.
+    ///
+    /// @return address of ID
+    ///
+    uint16_t findID(uint8_t id);
 
 public:
     /// @brief Constructor for the IDStorage class.
