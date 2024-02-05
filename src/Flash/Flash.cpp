@@ -11,6 +11,7 @@ namespace Flash
 
     // add flash memory definition here
     // Example: RollStorage storage(&flashLayout.memory1[0], sizeof(flashLayout.memory1), sizeof(DataType));
+    RollStorage testStorage(&flashLayout.testMemory[0], sizeof(flashLayout.testMemory), sizeof(TestData));
 
 
     // Add initializers here
@@ -20,6 +21,7 @@ namespace Flash
     void initStorage()
     {
         // Example: storage.init();
+        testStorage.init();
     }
 
     }
@@ -27,6 +29,7 @@ namespace Flash
     void clear()
     {
         // Example: storage.clear();
+        testStorage.clear();
     }
 
 
