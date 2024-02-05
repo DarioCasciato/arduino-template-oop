@@ -267,8 +267,11 @@ void testOverwriteMiddleIDLongerValue()
     uint16_t data1 = 4444, data3 = 6666;
     uint32_t data2 = 55555555; // Initially larger data for the middle ID
     Flash::idTest.write(id1, data1);
+    Logging::log("initial data1: %u", data1);
     Flash::idTest.write(id2, data2);
+    Logging::log("initial data2: %lu", data2);
     Flash::idTest.write(id3, data3);
+    Logging::log("initial data3: %u", data3);
 
     // Action: Overwriting the middle ID with even larger data
     uint64_t newData2 = 0xFFFFFFFFFFFFFFFF; // Larger data
@@ -278,8 +281,11 @@ void testOverwriteMiddleIDLongerValue()
     uint16_t readData1 = 0, readData3 = 0;
     uint64_t readData2 = 0;
     Flash::idTest.read(id1, &readData1);
+    Logging::log("read data1: %u", readData1);
     Flash::idTest.read(id2, &readData2);
+    Logging::log("read data2: %lu", readData2);
     Flash::idTest.read(id3, &readData3);
+    Logging::log("read data3: %u", readData3);
 
     if (readData1 == data1 && readData2 == newData2 && readData3 == data3)
     {
