@@ -58,9 +58,9 @@ namespace State
 
 
 void testRollStorageOperations(RollStorage& storage) {
-    Logging::log("------------\n");
-    Logging::log("Starting RollStorage Tests\n");
-    Logging::log("------------\n");
+    Logging::log("------------");
+    Logging::log("Starting RollStorage Tests");
+    Logging::log("------------");
 
     // Test data to write
     Flash::TestData writeData = {0xAA, 0xBB, 0xCCCC, 0xDDDDEEEE};
@@ -116,7 +116,7 @@ void testRollStorageOperations(RollStorage& storage) {
         Logging::log("Test Clear Storage: FAIL\n");
     }
 
-    Logging::log("------------\n");
-    Logging::log("Tests Completed\n");
-    Logging::log("------------\n");
+    Logging::log("------------");
+    Logging::log("Tests Completed");
+    Logging::log("------------");
 }
