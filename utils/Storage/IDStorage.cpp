@@ -164,7 +164,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
             // write from nextAddr to (nextAddr - sizeDiff) to 0xFF
             for(uint16_t i = 0; i < sizeDiff; i++)
             {
-                EEPROM.write(header_.nextAddr_ - i, 0xFF);
+                EEPROM.write(header_.nextAddr_ - i - 1, 0xFF);
             }
 
             header_.nextAddr_ -= sizeDiff;
@@ -321,6 +321,10 @@ uint16_t IDStorage::findID(uint8_t id)
     for(uint8_t i = 0; i < header_.numEntries_; i++)
     {
         uint8_t readId = EEPROM.read(addr);
+        if(addr > header_.startAddr_ + header_.storageSize_)
+        {
+            return 0; // end of storage
+        }
         if(readId == id)
         {
             return addr;
