@@ -110,6 +110,13 @@ public:
     ///
     bool read(uint8_t id, void* destination, uint8_t size);
 
+    /// @brief Delete data associated with a specific ID.
+    ///
+    /// @param id ID from which the data should be deleted
+    /// @return True if the delete operation was successful, false otherwise
+    ///
+    bool deleteID(uint8_t id);
+
     /// @brief Clear all data in the storage area.
     ///
     /// @return True if the clear operation was successful, false otherwise

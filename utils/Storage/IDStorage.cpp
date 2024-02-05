@@ -10,7 +10,8 @@
 #include "Logging.h"
 namespace
 {
-    const uint8_t tagAndLengthSize = 2; ///< Size of the tag and length fields
+    constexpr uint8_t tagAndLengthSize = 2; ///< Size of the tag and length fields
+    constexpr uint8_t lengthOffset = 1; ///< Offset for the length field
 } // namespace
 
 
@@ -76,7 +77,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 
     if(addr != 0)
     {
-        uint8_t currentSize = EEPROM.read(addr + 1);
+        uint8_t currentSize = EEPROM.read(addr + lengthOffset);
 
         if(newTlv.length == currentSize) // Option 1: size is the same
         {
@@ -127,11 +128,13 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
             {
                 EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, newTlv.data[i]);
             }
+
+            header_.nextAddr_ += tagAndLengthSize + newTlv.length;
         }
         else // Option 3: size is less than current size
         {
             // Overwrite length and value of current tlv with new length and value
-            EEPROM.write(addr + 1, newTlv.length);
+            EEPROM.write(addr + lengthOffset, newTlv.length);
             for(uint8_t i = 0; i < newTlv.length; i++)
             {
                 EEPROM.write(addr + tagAndLengthSize + i, newTlv.data[i]);
@@ -151,6 +154,8 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
                 tempData[i] = EEPROM.read(addr + currentSize + tagAndLengthSize + i);
             }
 
+            // paste copied datablock to end of new tlv
+            //! Check validity here
             for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + currentSize + tagAndLengthSize)); i++)
             {
                 EEPROM.write(addr + tagAndLengthSize + newTlv.length + i, tempData[i]);
@@ -222,7 +227,7 @@ bool IDStorage::read(uint8_t id, void* data, uint8_t size)
     }
 
     uint8_t* cData = static_cast<uint8_t*>(data);
-    uint8_t dataSize = EEPROM.read(addr + 1);
+    uint8_t dataSize = EEPROM.read(addr + lengthOffset);
     Logging::log("dataSize: %d", dataSize);
 
     if (size < dataSize)
@@ -235,6 +240,56 @@ bool IDStorage::read(uint8_t id, void* data, uint8_t size)
     {
         cData[i] = EEPROM.read(addr + tagAndLengthSize + i);
     }
+
+    return true;
+}
+
+bool IDStorage::deleteID(uint8_t id)
+{
+    uint16_t addr = findID(id);
+    Logging::log("delete addr: %d", addr);
+
+    if (addr == 0)
+    {
+        return false; // ID not found
+    }
+
+    uint8_t size = EEPROM.read(addr + lengthOffset);
+
+    // Overwrite tlv with 0xFF
+    for(uint8_t i = 0; i < (size + tagAndLengthSize); i++)
+    {
+        EEPROM.write(addr + i, 0xFF);
+    }
+
+    // copy data from end of deleted tlv to nextAddr
+    uint8_t tempData[header_.storageSize_];
+    for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + size + tagAndLengthSize)); i++)
+    {
+        tempData[i] = EEPROM.read(addr + size + tagAndLengthSize + i);
+    }
+
+    // paste copied datablock to startAddr of deleted tlv
+    for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + size + tagAndLengthSize)); i++)
+    {
+        EEPROM.write(addr + i, tempData[i]);
+    }
+
+    // set from nextAddr to (nextAddr - sizeof deleted tlv) to 0xFF
+    for(uint16_t i = 0; i < (header_.nextAddr_ - (size + tagAndLengthSize)); i++)
+    {
+        EEPROM.write(header_.nextAddr_ - i, 0xFF);
+    }
+
+
+    header_.nextAddr_ -= (size + tagAndLengthSize);
+    header_.numEntries_--;
+
+    updateHeader();
+
+#if defined(ESP8266) || defined(ESP32)
+    EEPROM.commit();
+#endif
 
     return true;
 }
@@ -271,7 +326,7 @@ uint16_t IDStorage::findID(uint8_t id)
             return addr;
         }
 
-        addr += tagAndLengthSize + EEPROM.read(addr + 1); // move to next entry
+        addr += tagAndLengthSize + EEPROM.read(addr + lengthOffset); // move to next entry
     }
 
     return 0; // ID not found
