@@ -62,61 +62,82 @@ void testRollStorageOperations(RollStorage& storage) {
     Logging::log("Starting RollStorage Tests");
     Logging::log("------------");
 
-    // Test data to write
-    Flash::TestData writeData = {0xAA, 0xBB, 0xCCCC, 0xDDDDEEEE};
+    storage.clear();
 
-    // Attempt to write data to storage
-    if(storage.write(&writeData)) {
-        Logging::log("Test Write: PASS\n");
-    } else {
-        Logging::log("Test Write: FAIL\n");
+    // Test data to write
+    Flash::TestData writeData;
+
+    Logging::log("\nTest 1: Write Data");
+
+    for (uint32_t i = 0; i < 5; i++)
+    {
+        writeData = {(uint8_t)i, (uint8_t)i, (uint16_t)i*100, i*1000};
+
+        if(!storage.write(&writeData))
+        {
+            Logging::log("\nFAIL: Write failed");
+            return;
+        }
     }
 
-    // Read back the data
+    Logging::log("PASS: Write successful");
+
+    Logging::log("\nTest 2: Read Data");
+
     Flash::TestData readData;
 
-    if(storage.readLast(&readData)) {
-        // Verify the read data
-        if(readData.field1 == writeData.field1 &&
-           readData.field2 == writeData.field2 &&
-           readData.field3 == writeData.field3 &&
-           readData.field4 == writeData.field4) {
-            Logging::log("Test Read Last: PASS\n");
-        } else {
-            Logging::log("Test Read Last: FAIL\n");
+    for (int8_t i = 4; i >= 0; i--)
+    {
+        if(!storage.read(i, &readData))
+        {
+            Logging::log("\nFAIL: Read failed");
+            return;
         }
-    } else {
-        Logging::log("Test Read Last: FAIL\n");
+
+        uint8_t expectedValue = 4 - i; // Calculate the expected value based on the index
+        if (readData.field1 != expectedValue || readData.field2 != expectedValue || readData.field3 != expectedValue*100 || readData.field4 != expectedValue*1000)
+        {
+            Logging::log("\nFAIL: Read data mismatch");
+        }
+        Logging::log("Expected: %d %d %d %d", expectedValue, expectedValue, expectedValue*100, expectedValue*1000);
+        Logging::log("Read: %d %d %d %d", readData.field1, readData.field2, readData.field3, readData.field4);
     }
 
-    // Test reading from a specific index (the most recent entry, index 0)
-    if(storage.read(0, &readData)) {
-        // Verify the read data
-        if(readData.field1 == writeData.field1 &&
-           readData.field2 == writeData.field2 &&
-           readData.field3 == writeData.field3 &&
-           readData.field4 == writeData.field4) {
-            Logging::log("Test Read Index 0: PASS\n");
-        } else {
-            Logging::log("Test Read Index 0: FAIL\n");
-        }
-    } else {
-        Logging::log("Test Read Index 0: FAIL\n");
+    Logging::log("PASS: Read successful");
+
+    Logging::log("\nTest 3: Read Data (Out of bounds)");
+
+    if(storage.read(5, &readData))
+    {
+        Logging::log("\nFAIL: Read succeeded");
+        return;
     }
 
-    // Clear storage and verify
-    if(storage.clear()) {
-        // Verify clear by checking number of entries
-        if(storage.getNumEntries() == 0) {
-            Logging::log("Test Clear Storage: PASS\n");
-        } else {
-            Logging::log("Test Clear Storage: FAIL\n");
-        }
-    } else {
-        Logging::log("Test Clear Storage: FAIL\n");
+    Logging::log("PASS: Read failed");
+
+    Logging::log("\nTest 4: clear");
+
+    if(!storage.clear())
+    {
+        Logging::log("\nFAIL: Clear failed");
+        return;
     }
 
-    Logging::log("------------");
-    Logging::log("Tests Completed");
+    Logging::log("PASS: Clear successful");
+
+    Logging::log("\nTest 5: Read Data (After clear)");
+
+    for (uint8_t i = 0; i < 5; i++)
+    {
+        if(storage.read(i, &readData))
+        {
+            Logging::log("\nFAIL: Read succeeded");
+            return;
+        }
+    }
+
+    Logging::log("PASS: Read failed");
+
+    Logging::log("\nAll tests passed");
     Logging::log("------------");
 }
