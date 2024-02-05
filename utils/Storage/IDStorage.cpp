@@ -84,7 +84,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
             // write data to eeprom
             for(uint8_t i = 0; i < newTlv.length; i++)
             {
-                EEPROM.write(addr + tagAndLengthSize + i, newTlv.data[i]);
+                EEPROM.write(addr + tagAndLengthSize + i, newTlv.value[i]);
             }
         }
         else if(newTlv.length > currentSize) // Option 2: size is greater than current size
@@ -126,7 +126,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
             EEPROM.write(header_.nextAddr_ + 1, newTlv.length);
             for(uint8_t i = 0; i < newTlv.length; i++)
             {
-                EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, newTlv.data[i]);
+                EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, newTlv.value[i]);
             }
 
             header_.nextAddr_ += tagAndLengthSize + newTlv.length;
@@ -137,7 +137,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
             EEPROM.write(addr + lengthOffset, newTlv.length);
             for(uint8_t i = 0; i < newTlv.length; i++)
             {
-                EEPROM.write(addr + tagAndLengthSize + i, newTlv.data[i]);
+                EEPROM.write(addr + tagAndLengthSize + i, newTlv.value[i]);
             }
 
             // write from end of new tlv to end of old tlv 0xFF
@@ -184,7 +184,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
         // write data to eeprom
         for(uint8_t i = 0; i < size; i++)
         {
-            EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, newTlv.data[i]);
+            EEPROM.write(header_.nextAddr_ + tagAndLengthSize + i, newTlv.value[i]);
         }
 
         header_.numEntries_++;

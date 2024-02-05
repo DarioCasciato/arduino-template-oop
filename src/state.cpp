@@ -2,6 +2,7 @@
 // Template-Project | State
 // =============================================================================
 
+#include <inttypes.h>
 #include "state.h"
 #include "hardware.h"
 #include "configurations.h"
@@ -37,30 +38,31 @@ namespace State
     // State implementations (can also be moved to separate files)
     void stateTesting()
     {
+        Flash::idTest.clear();
         uint8_t id = 0x01;
-        uint32_t data = 0x12345678;
+        uint32_t data = 305423736;
 
-        Logging::log("test 1: write 0x%x to id 0x%x", data, id);
+        Logging::log("test 1: write %" PRIu32 "to id 0x%d", data, id);
 
-        Logging::log("Written data: 0x%x", data);
         Flash::idTest.write(id, data);
+        Logging::log("Written data: %" PRIu32, data);
 
 
         uint32_t readData = 0;
         Flash::idTest.read(id, &readData);
 
-        Logging::log("Read data: 0x%x\n\n", readData);
+        Logging::log("Read data: %" PRIu32 "\n\n", readData);
 
         Logging::log("test 2: write smaller to id 0x%x", id);
 
-        uint16_t data2 = 0x1234;
-        Logging::log("Written data: 0x%x", data2);
+        uint16_t data2 = 34438;
+        Logging::log("Written data: %u", data2);
         Flash::idTest.write(id, data2);
 
         uint16_t readData2 = 0;
         Flash::idTest.read(id, &readData2);
 
-        Logging::log("Read data: 0x%x\n\n", readData2);
+        Logging::log("Read data: %u", readData2);
 
         state = States::st_end;
     }

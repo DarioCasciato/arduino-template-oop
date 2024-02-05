@@ -9,7 +9,7 @@
 #include <Arduino.h>
 
 /// @class IDStorage
-/// @brief Class for handling ID-based storage in flash memory.
+/// @brief Class for handling ID-based storage in flash memory. Entries are encoded as TLV (Tag-Length-Value).
 class IDStorage
 {
 private:
@@ -29,7 +29,7 @@ private:
     {
         uint8_t tag;  ///< Tag for the data
         uint8_t length;  ///< Length of the data
-        uint8_t* data;  ///< Pointer to the data
+        uint8_t* value;  ///< Pointer to the data
     };
 
 
