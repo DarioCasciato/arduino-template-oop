@@ -5,6 +5,7 @@
 #include "IDStorage.h"
 #include "Arduino.h"
 #include <EEPROM.h>
+#include "Logging.h"
 
 #include "../../src/Flash/FlashStructure.h"
 namespace
@@ -87,6 +88,7 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
         }
         else if(newTlv.length > currentSize) // Option 2: size is greater than current size
         {
+            //Logging::log("IDStorage: Option 2: size is greater than current size");
             if(!checkSize(newTlv.length - currentSize))
             {
                 return false; // storage is full
@@ -100,13 +102,13 @@ bool IDStorage::write(uint8_t id, void* data, uint8_t size)
 
             // copy data from end of deleted tlv to nextAddr
             uint8_t tempData[header_.storageSize_];
-            for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + currentSize + tagAndLengthSize)); i++)
+            for(uint16_t i = (addr + currentSize + tagAndLengthSize); i < header_.nextAddr_; i++)
             {
-                tempData[i] = EEPROM.read(addr + currentSize + tagAndLengthSize + i);
+                tempData[i] = EEPROM.read(i);
             }
 
             // paste copied datablock to startAddr of deleted tlv
-            for(uint16_t i = 0; i < (header_.nextAddr_ - (addr + currentSize + tagAndLengthSize)); i++)
+            for(uint16_t i = 0; i < (header_.nextAddr_ - (currentSize + tagAndLengthSize)); i++)
             {
                 EEPROM.write(addr + i, tempData[i]);
             }
