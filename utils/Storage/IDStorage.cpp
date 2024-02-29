@@ -305,7 +305,6 @@ bool IDStorage::clear()
     return true;
 }
 
-
 uint16_t IDStorage::findID(uint8_t id)
 {
     uint16_t addr = header_.startAddr_ + sizeof(header_);
