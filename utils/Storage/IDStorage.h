@@ -9,7 +9,7 @@
 #include <Arduino.h>
 
 /// @class IDStorage
-/// @brief Class for handling ID-based storage in flash memory.
+/// @brief Class for handling ID-based storage in flash memory. Entries are encoded as TLV (Tag-Length-Value).
 class IDStorage
 {
 private:
@@ -25,8 +25,29 @@ private:
         uint16_t nextAddr_;  ///< Next available address for writing
     } header_;
 
+    struct TLV
+    {
+        uint8_t tag;  ///< Tag for the data
+        uint8_t length;  ///< Length of the data
+        uint8_t* value;  ///< Pointer to the data
+    };
+
+
     /// @brief Update the header in flash memory.
     void updateHeader();
+
+    /// @brief Find an ID in the storage area.
+    ///
+    /// @return address of ID
+    ///
+    uint16_t findID(uint8_t id);
+
+    /// @brief Check if the storage area has enough space for the given size.
+    ///
+    /// @param size Size to check
+    /// @return True if the storage area has enough space, false otherwise
+    ///
+    bool checkSize(uint8_t size);
 
 public:
     /// @brief Constructor for the IDStorage class.
@@ -88,6 +109,13 @@ public:
     /// @return True if the read was successful, false otherwise
     ///
     bool read(uint8_t id, void* destination, uint8_t size);
+
+    /// @brief Delete data associated with a specific ID.
+    ///
+    /// @param id ID from which the data should be deleted
+    /// @return True if the delete operation was successful, false otherwise
+    ///
+    bool deleteID(uint8_t id);
 
     /// @brief Clear all data in the storage area.
     ///
