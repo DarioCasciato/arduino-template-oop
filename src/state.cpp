@@ -20,6 +20,8 @@ void testModifyMiddleValue();
 void testOverwriteMiddleIDLongerValue();
 void testOverwriteMiddleIDShorterValue();
 
+void readEEPROM(uint16_t startAddr, uint16_t length);
+
 //------------------------------------------------------------------------------
 
 namespace State
@@ -273,6 +275,12 @@ void testOverwriteMiddleIDLongerValue()
     Flash::idTest.write(id3, data3);
     Logging::log("initial data3: %u", data3);
 
+    Logging::log("");
+    Logging::log("EEPROM: ");
+    readEEPROM(0, 32);
+    Logging::log("");
+    Logging::log("");
+
     // Action: Overwriting the middle ID with even larger data
     uint64_t newData2 = 0xFFFFFFFFFFFFFFFF; // Larger data
     Flash::idTest.write(id2, newData2);
@@ -296,6 +304,12 @@ void testOverwriteMiddleIDLongerValue()
         Logging::log("FAIL: Overwriting middle ID with longer data affected adjacent IDs");
     }
     Logging::log("----------");
+
+    Logging::log("");
+    Logging::log("EEPROM: ");
+    readEEPROM(0, 32);
+    Logging::log("");
+    Logging::log("");
 }
 
 void testOverwriteMiddleIDShorterValue()
@@ -330,4 +344,16 @@ void testOverwriteMiddleIDShorterValue()
         Logging::log("FAIL: Overwriting middle ID with shorter data affected adjacent IDs");
     }
     Logging::log("----------");
+}
+
+
+// function that reads out eeprom with startaddr and length as input, split every byte with a space
+void readEEPROM(uint16_t startAddr, uint16_t length)
+{
+    for (uint16_t i = 0; i < length; i++)
+    {
+        Serial.print(EEPROM.read(startAddr + i), HEX);
+        Serial.print(" ");
+    }
+    Logging::log("");
 }
