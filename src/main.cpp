@@ -22,7 +22,7 @@ void setup()
 #else
     Serial.begin(9600);
 #endif
-
+    Hardware::init();
     Flash::init();
 }
 
